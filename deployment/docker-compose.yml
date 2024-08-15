@@ -1,0 +1,12 @@
+services:
+  prod:
+    container_name: metro-report-web
+    image: metro/report/report-web
+    volumes:
+      - ../configmap.env:/app/.env
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    ports:
+      - 31032:3000
+    restart: unless-stopped
