@@ -1,5 +1,5 @@
-import Layout from '@/components/layout/Layout';
+import List from './list';
 
 export default function Home() {
-  return <Layout />;
+  return <List />;
 }

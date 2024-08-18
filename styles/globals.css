@@ -2,9 +2,50 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --bg-primary: #333333;
+  --bg-secandary: #fbfcff;
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+  --modal-bg-color: 255, 255, 255;
+  --table-border-color: rgb(236, 236, 236);
+  --table-header-color: rgb(227, 227, 227);
+  --table-body-color: rgb(251, 251, 255);
+  --navbar-color: rgb(241, 243, 255);
+  --card-color: rgb(228, 227, 240);
+}
+
 /* styles/globals.css */
 body {
   margin: 0;
   padding: 0;
   font-family: inherit;
+  overflow: hidden;
+  background: var(--bg-secandary);
+}
+
+.shadow-panel {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px 6px rgba(0, 0, 0, 0.1),
+    0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  color: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #c1c1c1;
+  border-radius: 8px;
+  border: 3px solid #ffffff;
+}
+
+/* ส่วน track หรือพื้นหลังของ scrollbar */
+::-webkit-scrollbar-track {
+  background-color: #ffffff;
+}
+
+/* ส่วนของ scrollbar ที่เป็นแท่ง */
+::-webkit-scrollbar {
+  width: 12px;
 }

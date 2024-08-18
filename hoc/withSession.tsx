@@ -1,3 +1,4 @@
+import Layout from '@/components/layout/Layout';
 import React from 'react';
 
 // type HocWithSessionType = {
@@ -8,10 +9,15 @@ import React from 'react';
 
 const withSession = <P extends object>(
   WrappedComponent: React.ComponentType<P>,
-  title: string
+  title: string,
+  menu: string
 ) => {
   const ComponentWithSession = (props: P) => {
-    return <WrappedComponent {...props} />;
+    return (
+      <Layout title={title} menu={menu}>
+        <WrappedComponent {...props} />
+      </Layout>
+    );
   };
 
   ComponentWithSession.displayName = `withAuth(${

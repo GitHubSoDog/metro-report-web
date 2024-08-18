@@ -1,0 +1,38 @@
+import { PropsWithChildren } from 'react';
+
+type NavbarPropsType = PropsWithChildren<{
+  menu: string;
+}>;
+const Navbar = ({ children, menu }: NavbarPropsType) => {
+  return (
+    <div className="px-0 pt-0 sm:ml-64">
+      <nav className="bg-[var(--bg-primary)]">
+        <div className="max-w-screen-xl flex flex-wrap items-center p-2">
+          <button className="text-white">
+            <svg
+              className="w-6 h-6"
+              aria-hidden="true"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clipRule="evenodd"
+                fillRule="evenodd"
+                d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
+              ></path>
+            </svg>
+          </button>
+
+          <span className="pl-4 self-center text-l font-semibold whitespace-nowrap text-white">
+            {menu}
+          </span>
+        </div>
+      </nav>
+      <div className="p-4 max-h-[calc(100vh-64px)] overflow-y-auto">
+        {children}
+      </div>
+    </div>
+  );
+};
+export default Navbar;
