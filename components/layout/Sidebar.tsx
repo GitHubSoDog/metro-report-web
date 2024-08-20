@@ -18,6 +18,7 @@ const Sidebar = () => {
               width={500}
               height={500}
               alt="Picture of the author"
+              priority={true}
             />
             <div className="flex items-center justify-center w-14 h-14 overflow-hidden bg-[#888888] rounded-full">
               <span className="font-medium">BS</span>

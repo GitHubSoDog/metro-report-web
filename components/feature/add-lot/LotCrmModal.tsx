@@ -2,10 +2,14 @@ import DatePickerInput from '@/components/common/DatePickerInput';
 import DropDown from '@/components/common/DropDown';
 import Modal from '@/components/common/Modal';
 import TextInput from '@/components/common/TextInput';
+import { BILLET_TYPE, SKIN_TYPE } from '@/constants/master-data';
 import { ChangeEventBaseType } from '@/type/event';
+import { LotType } from '@/type/lots.type';
 type LotCrmModalPropsType = {
-  newLot: any;
-  onChangeNewLot: (event: ChangeEventBaseType<string | Date | null>) => void;
+  newLot: LotType;
+  onChangeNewLot: (
+    event: ChangeEventBaseType<string | Date | null, keyof LotType>
+  ) => void;
   isOpenModal: boolean;
   onCloseModal: () => void;
   onSubmitAddLot: () => void;
@@ -28,344 +32,261 @@ const LotCrmModal = ({
         <div className="grid gap-6 grid-cols-6">
           <div>
             <h2 className="text-xl font-extrabold dark:text-white">
-              Payments tool for companies
+              {newLot.lotName}
             </h2>
           </div>
-          <TextInput
-            value={''}
+          <TextInput<string, keyof LotType>
+            value={newLot.lotName}
             textLabel={'ล็อตที่'}
-            onChange={function (event: ChangeEventBaseType<string>): void {
-              throw new Error('Function not implemented.');
-            }}
-            id={''}
-            name={''}
-            character={[]}
-            disabled={false}
+            onChange={onChangeNewLot}
+            id={'lotName'}
+            name={'lotName'}
             maxLength={10}
           />
           <div className="col-span-4" />
           <div />
           <DropDown
-            value={''}
+            value={newLot.skinType}
             textLabel="ชนิดผิว"
-            onChange={function (event: ChangeEventBaseType<string>): void {
-              throw new Error('Function not implemented.');
-            }}
-            id={''}
-            name={''}
-            disabled={false}
+            onChange={onChangeNewLot}
+            id={'skinType'}
+            name={'skinType'}
+            option={SKIN_TYPE}
           />
           <DropDown
-            value={''}
+            value={newLot.billetType}
             textLabel="ชนิดบิลเลท"
-            onChange={function (event: ChangeEventBaseType<string>): void {
-              throw new Error('Function not implemented.');
-            }}
-            id={''}
-            name={''}
-            disabled={false}
+            onChange={onChangeNewLot}
+            id={'billetType'}
+            name={'billetType'}
+            option={BILLET_TYPE}
           />
           <TextInput
-            value={''}
+            value={newLot.customerName}
             textLabel={'ลูกค้า'}
-            onChange={function (event: ChangeEventBaseType<string>): void {
-              throw new Error('Function not implemented.');
-            }}
-            id={''}
-            name={''}
-            character={[]}
-            disabled={false}
+            onChange={onChangeNewLot}
+            id={'customerName'}
+            name={'customerName'}
           />
           <div className="col-span-2" />
           <div>เวลาผลิต</div>
           <DatePickerInput
-            value={newLot.date}
+            value={newLot.start}
             textLabel={'เริ่ม'}
             onChange={onChangeNewLot}
-            id={'dateLot'}
-            name={'date'}
+            id={'start'}
+            name={'start'}
             disabled={false}
             isShowTimeOnly
           />
           <DatePickerInput
-            value={newLot.date}
+            value={newLot.end}
             textLabel={'เสร็จ'}
             onChange={onChangeNewLot}
-            id={'dateLot'}
-            name={'date'}
+            id={'end'}
+            name={'end'}
             disabled={false}
             isShowTimeOnly
           />
           <TextInput
-            value={''}
+            value={newLot.dyNumber}
             textLabel={'ดาย์ เบอร์'}
-            onChange={function (event: ChangeEventBaseType<string>): void {
-              throw new Error('Function not implemented.');
-            }}
-            id={''}
-            name={''}
-            character={[]}
-            disabled={false}
+            onChange={onChangeNewLot}
+            id={'dyNumber'}
+            name={'dyNumber'}
+            character={['number']}
           />
           <div className="col-span-2" />
           <div>อุณหภูมิ</div>
           <TextInput
-            value={''}
+            value={newLot.dyScreen}
             textLabel={'ดายน์ หน้าจอ'}
-            onChange={function (event: ChangeEventBaseType<string>): void {
-              throw new Error('Function not implemented.');
-            }}
-            id={''}
-            name={''}
-            character={[]}
-            disabled={false}
+            onChange={onChangeNewLot}
+            id={'dyScreen'}
+            name={'dyScreen'}
+            character={['number']}
           />
           <DropDown
-            value={''}
+            value={newLot.dySkin}
             textLabel="ดายน์ ผิว"
-            onChange={function (event: ChangeEventBaseType<string>): void {
-              throw new Error('Function not implemented.');
-            }}
-            id={''}
-            name={''}
-            disabled={false}
+            onChange={onChangeNewLot}
+            id={'dySkin'}
+            name={'dySkin'}
           />
           <TextInput
-            value={''}
+            value={newLot.billetScreen}
             textLabel={'บิลเลท หน้าจอ'}
-            onChange={function (event: ChangeEventBaseType<string>): void {
-              throw new Error('Function not implemented.');
-            }}
-            id={''}
-            name={''}
-            character={[]}
-            disabled={false}
+            onChange={onChangeNewLot}
+            id={'billetScreen'}
+            name={'billetScreen'}
+            character={['number']}
           />
           <DropDown
-            value={''}
+            value={newLot.billetMiddle}
             textLabel="บิลเลท กึ่งกลาง"
-            onChange={function (event: ChangeEventBaseType<string>): void {
-              throw new Error('Function not implemented.');
-            }}
-            id={''}
-            name={''}
-            disabled={false}
+            onChange={onChangeNewLot}
+            id={'billetMiddle'}
+            name={'billetMiddle'}
           />
           <TextInput
-            value={''}
+            value={newLot.container}
             textLabel={'คอนเทรนเนอร์'}
-            onChange={function (event: ChangeEventBaseType<string>): void {
-              throw new Error('Function not implemented.');
-            }}
-            id={''}
-            name={''}
-            character={[]}
-            disabled={false}
+            onChange={onChangeNewLot}
+            id={'container'}
+            name={'container'}
+            character={['number', 'dot']}
           />
           <div>ชุดประกอบร่วม</div>
           <TextInput
-            value={''}
+            value={newLot.boNo}
             textLabel={'BO NO.'}
-            onChange={function (event: ChangeEventBaseType<string>): void {
-              throw new Error('Function not implemented.');
-            }}
-            id={''}
-            name={''}
-            character={[]}
-            disabled={false}
+            onChange={onChangeNewLot}
+            id={'boNo'}
+            name={'boNo'}
+            character={['number', 'dot']}
           />
           <TextInput
-            value={''}
+            value={newLot.insNo}
             textLabel={'INS NO.'}
-            onChange={function (event: ChangeEventBaseType<string>): void {
-              throw new Error('Function not implemented.');
-            }}
-            id={''}
-            name={''}
-            character={[]}
-            disabled={false}
+            onChange={onChangeNewLot}
+            id={'insNo'}
+            name={'insNo'}
+            character={['number', 'dot']}
           />
           <DropDown
-            value={''}
+            value={newLot.holeCount}
             textLabel="จำนวนรู"
-            onChange={function (event: ChangeEventBaseType<string>): void {
-              throw new Error('Function not implemented.');
-            }}
-            id={''}
-            name={''}
-            disabled={false}
+            onChange={onChangeNewLot}
+            id={'holeCount'}
+            name={'holeCount'}
           />
           <DropDown
-            value={''}
+            value={newLot.averageWeight}
             textLabel="น้ำหนักเฉลี่ย/เมตร"
-            onChange={function (event: ChangeEventBaseType<string>): void {
-              throw new Error('Function not implemented.');
-            }}
-            id={''}
-            name={''}
-            disabled={false}
+            onChange={onChangeNewLot}
+            id={'averageWeight'}
+            name={'averageWeight'}
           />
           <div />
           <div>บิลเลท</div>
           <TextInput
-            value={''}
+            value={newLot.billetWeight}
             textLabel={'น้ำหนักบิลเลท(กก.)/แพ็ค'}
-            onChange={function (event: ChangeEventBaseType<string>): void {
-              throw new Error('Function not implemented.');
-            }}
-            id={''}
-            name={''}
-            character={[]}
-            disabled={false}
+            onChange={onChangeNewLot}
+            id={'billetWeight'}
+            name={'billetWeight'}
+            character={['number', 'dot']}
           />
           <DatePickerInput
-            value={newLot.date}
+            value={newLot.factoryDate}
             textLabel={'วันที่เข้าโรงรีด'}
             onChange={onChangeNewLot}
-            id={'dateLot'}
-            name={'date'}
+            id={'factoryDate'}
+            name={'factoryDate'}
             disabled={false}
           />
           <TextInput
-            value={''}
+            value={newLot.billetNumber}
             textLabel={'หมายเลข บิลเลท'}
-            onChange={function (event: ChangeEventBaseType<string>): void {
-              throw new Error('Function not implemented.');
-            }}
-            id={''}
-            name={''}
-            character={[]}
-            disabled={false}
+            onChange={onChangeNewLot}
+            id={'billetNumber'}
+            name={'billetNumber'}
+            character={['number', 'eng', 'dot']}
           />
           <TextInput
-            value={''}
+            value={newLot.ironingSize}
             textLabel={'ขนาดตัดเพื่อรีด'}
-            onChange={function (event: ChangeEventBaseType<string>): void {
-              throw new Error('Function not implemented.');
-            }}
-            id={''}
-            name={''}
-            character={[]}
-            disabled={false}
+            onChange={onChangeNewLot}
+            id={'ironingSize'}
+            name={'ironingSize'}
+            character={['number', 'dot']}
           />
           <div className="col-span-1" />
           <div />
           <TextInput
-            value={''}
+            value={newLot.tendon}
             textLabel={'เผื่อบัดเอ็น'}
-            onChange={function (event: ChangeEventBaseType<string>): void {
-              throw new Error('Function not implemented.');
-            }}
-            id={''}
-            name={''}
-            character={[]}
-            disabled={false}
+            onChange={onChangeNewLot}
+            id={'tendon'}
+            name={'tendon'}
           />
           <TextInput
-            value={''}
+            value={newLot.billetCount}
             textLabel={'จำนวน'}
-            onChange={function (event: ChangeEventBaseType<string>): void {
-              throw new Error('Function not implemented.');
-            }}
-            id={''}
-            name={''}
-            character={[]}
-            disabled={false}
+            onChange={onChangeNewLot}
+            id={'billetCount'}
+            name={'billetCount'}
+            character={['number', 'dot']}
           />
           <div className="col-span-3" />
           <div>ตัดหน้าเครื่อง</div>
           <TextInput
-            value={''}
+            value={newLot.times}
             textLabel={'ครั้ง/ลูก'}
-            onChange={function (event: ChangeEventBaseType<string>): void {
-              throw new Error('Function not implemented.');
-            }}
-            id={''}
-            name={''}
-            character={[]}
-            disabled={false}
+            onChange={onChangeNewLot}
+            id={'times'}
+            name={'times'}
+            character={['number']}
           />
           <TextInput
-            value={''}
+            value={newLot.longShop}
             textLabel={'ความยาวบนร้าน (ม.)'}
-            onChange={function (event: ChangeEventBaseType<string>): void {
-              throw new Error('Function not implemented.');
-            }}
-            id={''}
-            name={''}
-            character={[]}
-            disabled={false}
+            onChange={onChangeNewLot}
+            id={'longShop'}
+            name={'longShop'}
+            character={['number', 'dot']}
           />
           <TextInput
-            value={''}
+            value={newLot.longExpect}
             textLabel={'ความยาวที่ลูกค้าต้องการ'}
-            onChange={function (event: ChangeEventBaseType<string>): void {
-              throw new Error('Function not implemented.');
-            }}
-            id={''}
-            name={''}
-            character={[]}
-            disabled={false}
+            onChange={onChangeNewLot}
+            id={'longExpect'}
+            name={'longExpect'}
+            character={['number', 'dot']}
           />
           <div className="col-span-2" />
           <div>ตัดหน้าเครื่อง</div>
           <TextInput
-            value={''}
+            value={newLot.good}
             textLabel={'ดี'}
-            onChange={function (event: ChangeEventBaseType<string>): void {
-              throw new Error('Function not implemented.');
-            }}
-            id={''}
-            name={''}
-            character={[]}
-            disabled={false}
+            onChange={onChangeNewLot}
+            id={'good'}
+            name={'good'}
+            character={['number', 'dot']}
           />
           <TextInput
-            value={''}
+            value={newLot.waste}
             textLabel={'เสีย'}
-            onChange={function (event: ChangeEventBaseType<string>): void {
-              throw new Error('Function not implemented.');
-            }}
-            id={''}
-            name={''}
-            character={[]}
-            disabled={false}
+            onChange={onChangeNewLot}
+            id={'waste'}
+            name={'waste'}
+            character={['number', 'dot']}
           />
           <TextInput
-            value={''}
+            value={newLot.wastePercent}
             textLabel={'%งานเสีย'}
-            onChange={function (event: ChangeEventBaseType<string>): void {
-              throw new Error('Function not implemented.');
-            }}
-            id={''}
-            name={''}
-            character={[]}
-            disabled={false}
+            onChange={onChangeNewLot}
+            id={'wastePercent'}
+            name={'wastePercent'}
+            character={['number', 'dot']}
           />
           <TextInput
-            value={''}
+            value={newLot.speedPull}
             textLabel={'ความเร็วพูลเลอร์ m/min'}
-            onChange={function (event: ChangeEventBaseType<string>): void {
-              throw new Error('Function not implemented.');
-            }}
-            id={''}
-            name={''}
-            character={[]}
-            disabled={false}
+            onChange={onChangeNewLot}
+            id={'speedPull'}
+            name={'speedPull'}
+            character={['number', 'dot']}
           />
 
           <div className="col-span-1" />
           <div className="col-span-1" />
           <TextInput
-            value={''}
+            value={newLot.desc}
             textLabel={'หมายเหตุ'}
-            onChange={function (event: ChangeEventBaseType<string>): void {
-              throw new Error('Function not implemented.');
-            }}
-            id={''}
-            name={''}
-            character={[]}
-            disabled={false}
+            onChange={onChangeNewLot}
+            id={'desc'}
+            name={'desc'}
           />
         </div>
       </Modal>

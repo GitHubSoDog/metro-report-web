@@ -4,11 +4,18 @@ import { CiEdit } from 'react-icons/ci';
 import { MdDelete, MdDeleteSweep } from 'react-icons/md';
 import Pagination from '../pagination/Pagination';
 import useTable from '@/hook/useTable.hook';
+import { LotType } from '@/type/lots.type';
 
 type DailyReportPropsType = {
-  data: any[];
+  data: LotType[];
+  onToggleOpenModal: (data: LotType, isNewLot: boolean) => void;
+  onDeleteLots: (lotId: string) => void;
 };
-const DailyReport = ({ data }: DailyReportPropsType) => {
+const DailyReport = ({
+  data,
+  onToggleOpenModal,
+  onDeleteLots,
+}: DailyReportPropsType) => {
   const {
     fieldNameSort,
     handleSorting,
@@ -19,7 +26,7 @@ const DailyReport = ({ data }: DailyReportPropsType) => {
     handlePage,
     firstPage,
     finalPage,
-  } = useTable<any>(data, 19);
+  } = useTable(data, 19);
   return (
     <Fragment>
       <div className="overflow-y-auto">
@@ -149,43 +156,43 @@ const DailyReport = ({ data }: DailyReportPropsType) => {
           <tbody>
             {dataLots.map((row, index) => (
               <tr key={index}>
-                <td>{row.customer}</td>
-                <td>{row.start}</td>
-                <td>{row.end}</td>
-                <td>xxx</td>
-                <td>17:00</td>
-                <td>17:00</td>
-                <td>{row.number}</td>
-                <td>xxx</td>
-                <td>xxx</td>
-                <td>xxx</td>
-                <td>xxx</td>
-                <td>430</td>
-                <td>xx</td>
-                <td>xx</td>
-                <td>xx</td>
-                <td>{row.temperature2}</td>
-                <td>{row.temperature3}</td>
-                <td>{row.temperature4}</td>
-                <td>xxxxxxxxxx</td>
-                <td>{row.other}xx</td>
-                <td>xx</td>
-                <td>xx</td>
-                <td>xxx</td>
-                <td>xxx</td>
-                <td>xxx</td>
-                <td>{row.temperature2}</td>
-                <td>{row.temperature3}</td>
-                <td>{row.temperature4}</td>
-                <td>{row.temperature3}</td>
+                <td>{row.lotName}</td>
+                <td>{row.skinType}</td>
+                <td>{row.billetType}</td>
+                <td>{row.customerName}</td>
+                <td>{row.start.toLocaleDateString()}</td>
+                <td>{row.end.toLocaleDateString()}</td>
+                <td>{row.dyNumber}</td>
+                <td>{row.dyScreen}</td>
+                <td>{row.dySkin}</td>
+                <td>{row.billetScreen}</td>
+                <td>{row.billetMiddle}</td>
+                <td>{row.container}</td>
+                <td>{row.boNo}</td>
+                <td>{row.insNo}</td>
+                <td>{row.holeCount}</td>
+                <td>{row.averageWeight}</td>
+                <td>{row.billetWeight}</td>
+                <td>{row.factoryDate.toLocaleDateString()}</td>
+                <td>{row.billetNumber}</td>
+                <td>{row.ironingSize}</td>
+                <td>{row.tendon}</td>
+                <td>{row.billetCount}</td>
+                <td>{row.times}</td>
+                <td>{row.longShop}</td>
+                <td>{row.longExpect}</td>
+                <td>{row.good}</td>
+                <td>{row.waste}</td>
+                <td>{row.wastePercent}</td>
+                <td>{row.speedPull}</td>
                 <td className="min-w-[100px] max-w-[100px] break-words">
-                  {row.temperature4}xxxxxxxx
+                  {row.desc}
                 </td>
                 <td className="min-w-[100px] max-w-[180px] sticky right-0 break-words p-2 bg-white">
                   <div className="flex w-full justify-center">
                     <Button
                       id={'Edit'}
-                      onClick={() => row.reportId}
+                      onClick={() => onToggleOpenModal(row, false)}
                       type={'button'}
                       name={'Edit'}
                       theme="primary"
@@ -195,7 +202,7 @@ const DailyReport = ({ data }: DailyReportPropsType) => {
                     </Button>
                     <Button
                       id={'remove'}
-                      onClick={() => row.reportId}
+                      onClick={() => onDeleteLots(row.lotId)}
                       type={'button'}
                       name={'remove'}
                       theme="danger"

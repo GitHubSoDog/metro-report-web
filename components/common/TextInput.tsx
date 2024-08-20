@@ -12,18 +12,18 @@ type CharacterType =
   | 'comma'
   | 'dot';
 
-type TextInputPropsType<T> = {
+type TextInputPropsType<T, K = string> = {
   value: string;
   textLabel: string;
-  onChange: (event: ChangeEventBaseType<T>) => void;
+  onChange: (event: ChangeEventBaseType<T, K>) => void;
   id: string;
   name: string;
   placeholder?: string;
   maxLength?: number;
-  character: CharacterType[];
-  disabled: boolean;
+  character?: CharacterType[];
+  disabled?: boolean;
 };
-const TextInput = ({
+const TextInput = <T extends string, K extends string>({
   textLabel,
   onChange,
   id,
@@ -33,7 +33,7 @@ const TextInput = ({
   character = [],
   disabled = false,
   value,
-}: TextInputPropsType<string>) => {
+}: TextInputPropsType<T, K>) => {
   const characterRegex = useMemo(
     () =>
       character?.map((item) => {
@@ -69,14 +69,14 @@ const TextInput = ({
 
   const handleOnChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     const { name, value } = event.target;
-    const changeEvent: ChangeEventBaseType<string> = {
-      name: name,
-      value: isCheckCharacterRe
+    const changeEvent: ChangeEventBaseType<T, K> = {
+      name: name as K,
+      value: (isCheckCharacterRe
         ? value
             ?.replace(isCheckCharacterRe, '')
             ?.slice(0, maxLength)
             ?.trimStart()
-        : value?.slice(0, maxLength)?.trimStart(),
+        : value?.slice(0, maxLength)?.trimStart()) as T,
       id: id,
     };
     onChange?.(changeEvent);

@@ -2,18 +2,18 @@ import { ChangeEventBaseType } from '@/type/event';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-type DatePickerPropsType<T> = {
+type DatePickerPropsType<T, K = string> = {
   value: Date;
   textLabel?: string;
-  onChange: (event: ChangeEventBaseType<T>) => void;
+  onChange: (event: ChangeEventBaseType<T, K>) => void;
   id: string;
   name: string;
-  disabled: boolean;
+  disabled?: boolean;
   isShowTimeOnly?: boolean;
   isShowDateOnly?: boolean;
 };
 
-const DatePickerInput = ({
+const DatePickerInput = <T extends Date, K extends string>({
   textLabel = '',
   onChange,
   id,
@@ -22,11 +22,11 @@ const DatePickerInput = ({
   value = new Date(),
   isShowTimeOnly = false,
   isShowDateOnly = false,
-}: DatePickerPropsType<Date | null>) => {
+}: DatePickerPropsType<T | null, K>) => {
   const handleOnChange = (event: Date | null) => {
-    const changeEvent: ChangeEventBaseType<Date | null> = {
-      name: name,
-      value: event || null,
+    const changeEvent: ChangeEventBaseType<T, K> = {
+      name: name as K,
+      value: (event || null) as T,
       id: id,
     };
     onChange?.(changeEvent);
@@ -50,9 +50,9 @@ const DatePickerInput = ({
             ? isShowDateOnly
               ? 'MM/dd/yyyy'
               : isShowTimeOnly
-              ? 'hh:mm'
-              : 'MM/dd/yyyy hh:mm'
-            : 'MM/dd/yyyy hh:mm'
+              ? 'HH:mm'
+              : 'MM/dd/yyyy HH:mm'
+            : 'MM/dd/yyyy HH:mm'
         }
         showTimeInput={isShowDateOnly ? false : true}
         showTimeSelectOnly={isShowTimeOnly}
