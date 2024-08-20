@@ -1,17 +1,25 @@
 import Link from 'next/link';
 import { Fragment } from 'react';
+import Image from 'next/image';
 
 const Sidebar = () => {
   return (
     <Fragment>
       <aside
         id="sidebar-multi-level-sidebar"
-        className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+        className="fixed top-0 left-0 z-9 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidebar"
       >
         <div className="h-[calc(100%-5rem)] px-3 py-4 overflow-y-auto bg-[var(--bg-primary)] text-white">
-          <div className="w-full flex flex-col justify-center items-center py-4">
-            <div className="flex items-center justify-center w-10 h-10 overflow-hidden bg-[#888888] rounded-full">
+          <div className="w-full flex flex-col justify-center items-center pt-0 py-4">
+            <Image
+              src="/logo.png"
+              className="mb-4"
+              width={500}
+              height={500}
+              alt="Picture of the author"
+            />
+            <div className="flex items-center justify-center w-14 h-14 overflow-hidden bg-[#888888] rounded-full">
               <span className="font-medium">BS</span>
             </div>
             <span className="pt-4">Benchapon</span>
@@ -36,7 +44,7 @@ const Sidebar = () => {
                 </span>
               </Link>
             </li>
-            <li>
+            {/* <li>
               <button
                 type="button"
                 className="flex items-center w-full p-2 text-base transition duration-75 rounded-lg group "
@@ -97,7 +105,7 @@ const Sidebar = () => {
                   </a>
                 </li>
               </ul>
-            </li>
+            </li> */}
           </ul>
         </div>
         <div className="h-20 px-3 py-4 bg-[var(--bg-primary)] text-white">

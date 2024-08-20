@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { Fragment, PropsWithChildren } from 'react';
 import Sidebar from './Sidebar';
+import Navbar from './Navbar';
 type LayoutPropsType = PropsWithChildren<{
   title: string;
   menu: string;
@@ -12,8 +13,7 @@ const Layout = ({ children, title, menu }: LayoutPropsType) => {
         <title>{title}</title>
       </Head>
       <Sidebar />
-      {children}
-      {/* <Navbar children={children} menu={menu} /> */}
+      <Navbar menu={menu}> {children}</Navbar>
     </Fragment>
   );
 };

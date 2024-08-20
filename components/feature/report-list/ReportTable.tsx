@@ -59,6 +59,7 @@ const ReportTable = ({ reportList = [], routeEdit }: TablePropsType) => {
                       onClick={() => {}}
                       type={'button'}
                       name={'Print'}
+                      className="mr-2"
                     >
                       <IoIosPrint />
                     </Button>

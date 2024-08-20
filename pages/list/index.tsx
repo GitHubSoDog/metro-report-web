@@ -79,6 +79,7 @@ const List = () => {
       createDate: '2024-08-12 00:00:12',
     },
   ];
+
   return (
     <div className="shadow-panel">
       <div className="flex justify-between items-baseline pb-2">

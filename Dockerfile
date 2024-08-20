@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=node:20.14.0-alpine3.20
+ARG BASE_IMAGE=node:20.16.0-alpine3.20
 
 FROM $BASE_IMAGE as builder
 RUN apk add --no-cache bash git
