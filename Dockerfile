@@ -1,31 +1,16 @@
-# Base image
-ARG BASE_IMAGE=node:20.16.0-alpine3.20
+ARG BASE_IMAGE=node:20.14.0-alpine3.20
+
 FROM $BASE_IMAGE as builder
-
-# Install bash, git, and yarn
-RUN apk add --no-cache bash git curl && \
-    curl -o- -L https://yarnpkg.com/install.sh | bash
-
-# Set working directory
+RUN apk add --no-cache bash git
 WORKDIR /app
-
-# Copy package.json and yarn.lock
 COPY ./package.json ./
-COPY ./yarn.lock ./
+COPY ./package-lock.json ./
 
-# Install dependencies using Yarn
-RUN yarn install --frozen-lockfile
-
-# Copy all other files
+RUN CI=true npm ci
 COPY . ./
+RUN NODE_ENV=production npm run build
 
-# Build the project
-RUN NODE_ENV=production yarn build
-
-# Production stage
 FROM $BASE_IMAGE as production
-
-# Update and upgrade APK packages
 RUN apk update && apk upgrade
 
 # Set working directory
