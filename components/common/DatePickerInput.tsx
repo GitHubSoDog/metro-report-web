@@ -48,11 +48,11 @@ const DatePickerInput = <T extends Date, K extends string>({
         dateFormat={
           isShowTimeOnly || isShowDateOnly
             ? isShowDateOnly
-              ? 'MM/dd/yyyy'
+              ? 'dd/MM/yyyy'
               : isShowTimeOnly
               ? 'HH:mm'
-              : 'MM/dd/yyyy HH:mm'
-            : 'MM/dd/yyyy HH:mm'
+              : 'dd/MM/yyyy HH:mm'
+            : 'dd/MM/yyyy HH:mm'
         }
         showTimeInput={isShowDateOnly ? false : true}
         showTimeSelectOnly={isShowTimeOnly}

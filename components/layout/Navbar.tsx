@@ -2,13 +2,20 @@ import { PropsWithChildren } from 'react';
 
 type NavbarPropsType = PropsWithChildren<{
   menu: string;
+  onToggleSideBar: () => void;
+  isOpen: boolean;
 }>;
-const Navbar = ({ children, menu }: NavbarPropsType) => {
+const Navbar = ({
+  children,
+  menu,
+  onToggleSideBar,
+  isOpen,
+}: NavbarPropsType) => {
   return (
-    <div className="px-0 pt-0 sm:ml-64">
+    <div className={`px-0 pt-0 ${isOpen ? 'ml-64' : 'ml-0'}`}>
       <nav className="bg-[var(--bg-primary)]">
         <div className="max-w-screen-xl flex flex-wrap items-center p-2">
-          <button className="text-white">
+          <button className="text-white" onClick={onToggleSideBar}>
             <svg
               className="w-6 h-6"
               aria-hidden="true"

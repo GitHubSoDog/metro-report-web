@@ -1,16 +1,29 @@
 import { LOT_DEFAULT } from '@/constants/lot';
 import { ChangeEventBaseType } from '@/type/event';
 import { LotType } from '@/type/lots.type';
-import { ApproveReportType, ReportType } from '@/type/report.type';
+import {
+  ApproveReportType,
+  DEPARTMENT_ENUM,
+  ReportType,
+} from '@/type/report.type';
 import { genarateIdNormal } from '@/utilities/normal-fn';
+import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 
 const useDailyReport = () => {
+  const router = useRouter();
+
   const [report, setReport] = useState<ReportType>({
     id: '',
+    su: '',
+    dateReport: new Date(),
+    machine: '',
+    duty: '',
+    lineLeader: '',
+    start: new Date(),
+    end: new Date(),
     lots: {},
-    createBy: '',
-    updateBy: '',
+    department: DEPARTMENT_ENUM.PRODUCTION,
     employeeIroning: {
       employeeName: '',
       approveDate: new Date(),
@@ -27,6 +40,8 @@ const useDailyReport = () => {
       employeeName: '',
       approveDate: new Date(),
     },
+    createBy: 'User_Metro',
+    updateBy: 'User_Metro',
     createdAt: new Date(),
     updatedAt: new Date(),
   });
@@ -40,7 +55,7 @@ const useDailyReport = () => {
   };
 
   const onChangeReport = (
-    event: ChangeEventBaseType<string, keyof ReportType>
+    event: ChangeEventBaseType<Date | null | string, keyof ReportType>
   ) => {
     setReport((prev) => ({ ...prev, [event.name]: event.value }));
   };
@@ -87,6 +102,16 @@ const useDailyReport = () => {
     setNewLot({ ...LOT_DEFAULT });
   };
 
+  const onSubmitReport = () => {
+    //api
+    // Save DB
+    //api
+  };
+
+  const onBackPageList = () => {
+    router.push(`/`);
+  };
+
   const onDeleteLots = (lotId: string) => {
     // api
 
@@ -112,6 +137,8 @@ const useDailyReport = () => {
     onDeleteLots,
     onChangeReport,
     onChangeReportApprove,
+    onBackPageList,
+    onSubmitReport,
   };
 };
 

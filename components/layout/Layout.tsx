@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { Fragment, PropsWithChildren } from 'react';
+import { Fragment, PropsWithChildren, useState } from 'react';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 type LayoutPropsType = PropsWithChildren<{
@@ -7,13 +7,19 @@ type LayoutPropsType = PropsWithChildren<{
   menu: string;
 }>;
 const Layout = ({ children, title, menu }: LayoutPropsType) => {
+  const [isOpen, setIsOpen] = useState(true);
+  const onToggleSideBar = () => {
+    setIsOpen(!isOpen);
+  };
   return (
     <Fragment>
       <Head>
         <title>{title}</title>
       </Head>
-      <Sidebar />
-      <Navbar menu={menu}> {children}</Navbar>
+      <Sidebar isOpen={isOpen} />
+      <Navbar menu={menu} onToggleSideBar={onToggleSideBar} isOpen={isOpen}>
+        {children}
+      </Navbar>
     </Fragment>
   );
 };

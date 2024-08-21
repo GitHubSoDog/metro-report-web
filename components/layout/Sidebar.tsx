@@ -1,13 +1,17 @@
 import Link from 'next/link';
 import { Fragment } from 'react';
 import Image from 'next/image';
-
-const Sidebar = () => {
+type SidebarPropsType = {
+  isOpen: boolean;
+};
+const Sidebar = ({ isOpen }: SidebarPropsType) => {
   return (
     <Fragment>
       <aside
         id="sidebar-multi-level-sidebar"
-        className="fixed top-0 left-0 z-9 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+        className={`fixed top-0 left-0 z-9 w-64 h-screen transition-transform -translate-x-full ${
+          isOpen ? 'translate-x-0' : ''
+        }`}
         aria-label="Sidebar"
       >
         <div className="h-[calc(100%-5rem)] px-3 py-4 overflow-y-auto bg-[var(--bg-primary)] text-white">

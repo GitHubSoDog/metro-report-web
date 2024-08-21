@@ -5,17 +5,27 @@ import { Fragment } from 'react';
 import { CiEdit } from 'react-icons/ci';
 import { MdDelete } from 'react-icons/md';
 import Pagination from '../pagination/Pagination';
+import useScrollbar from '@/hook/useScrollbar.hook';
+import { showLocalDate, showLocalTime } from '@/utilities/normal-fn';
 
-type DailyReportPropsType = {
+type LotsTablePropsType = {
   data: LotType[];
   onToggleOpenModal: (data: LotType, isNewLot: boolean) => void;
   onDeleteLots: (lotId: string) => void;
 };
-const DailyReport = ({
+
+const LotsTable = ({
   data,
   onToggleOpenModal,
   onDeleteLots,
-}: DailyReportPropsType) => {
+}: LotsTablePropsType) => {
+  const {
+    scrollRef,
+    handleMouseMove,
+    handleMouseUp,
+    handleMouseLeave,
+    handleMouseDown,
+  } = useScrollbar();
   const {
     fieldNameSort,
     handleSorting,
@@ -26,14 +36,24 @@ const DailyReport = ({
     handlePage,
     firstPage,
     finalPage,
-  } = useTable(data, 19);
+  } = useTable(data, 10);
+
   return (
     <Fragment>
-      <div className="overflow-y-auto">
-        <table className="table-normal">
+      <div
+        ref={scrollRef}
+        onMouseDown={handleMouseDown}
+        onMouseLeave={handleMouseLeave}
+        onMouseUp={handleMouseUp}
+        onMouseMove={handleMouseMove}
+        className="overflow-y-auto hover:cursor-pointer"
+      >
+        <table className="table-custom">
           <thead>
-            <tr>
-              <th rowSpan={3}>ล็อตที่</th>
+            <tr className="bg-[#323338] text-white">
+              <th rowSpan={3} className="min-w-[100px] ">
+                ล็อตที่
+              </th>
               <th rowSpan={3} className="min-w-[80px]">
                 ชนิดผิว
               </th>
@@ -42,52 +62,50 @@ const DailyReport = ({
                 <br />
                 บิลเลท
               </th>
-              <th rowSpan={3}>ลูกค้า</th>
+              <th rowSpan={3} className="min-w-[80px]">
+                ลูกค้า
+              </th>
               <th colSpan={2} className="min-w-[80px]">
                 เวลาผลิต
               </th>
               <th>ดายน์</th>
               <th colSpan={5}>อุณหภูมิ °C</th>
               <th colSpan={2}>ชุดประกอบร่วม</th>
-              <th rowSpan={3} className="rotated">
+              <th rowSpan={3} className="min-w-[80px]">
                 จำนวนรู
               </th>
-              <th rowSpan={3}>
-                น้ำหนักเฉลี่ย/ <br />
-                เมตร
+              <th rowSpan={3} className="min-w-[140px]">
+                น้ำหนักเฉลี่ย/เมตร
               </th>
               <th colSpan={6}>บิลเลท</th>
               <th colSpan={2}>ตัดหน้าเครื่อง</th>
               <th>ความยาวที่</th>
-              <th colSpan={3} rowSpan={2}>
+              <th colSpan={3} rowSpan={2} className="min-w-[160px]">
                 จำนวนเส้นที่ตัดได้
               </th>
-              <th rowSpan={3}>
-                ความเร็ว
-                <br />
-                พูลเลอร์
+              <th rowSpan={3} className="min-w-[130px]">
+                ความเร็วพูลเลอร์
                 <br />
                 m/min
               </th>
-              <th rowSpan={3} className="max-w-[120px]">
+              <th rowSpan={3} className="min-w-[120px]">
                 หมายเหตุ
               </th>
-              <th rowSpan={3} className="max-w-[120px] sticky right-0 bg-white">
+              <th
+                rowSpan={3}
+                className="min-w-[120px] sticky right-0 border-solid border border-[#323338] bg-[#323338] text-white"
+              >
                 Action
               </th>
             </tr>
-            <tr>
+            <tr className="bg-[#555556] text-white">
               <th rowSpan={2}>เริ่ม</th>
               <th rowSpan={2}>เสร็จ</th>
               <th rowSpan={2}>เบอร์</th>
               <th colSpan={2}>ดายน์</th>
               <th colSpan={2}>บิลเลท</th>
-              <th rowSpan={2}>
-                คอน
-                <br />
-                เทน
-                <br />
-                เนอร์
+              <th rowSpan={2} className="min-w-[80px]">
+                คอนเทนเนอร์
               </th>
               <th rowSpan={2} className="min-w-[70px]">
                 BO NO
@@ -95,7 +113,7 @@ const DailyReport = ({
               <th rowSpan={2} className="min-w-[70px]">
                 INS NO
               </th>
-              <th rowSpan={2} className="min-w-[60px]">
+              <th rowSpan={2} className="min-w-[100px]">
                 น.น บิลเลท
                 <br />
                 (ก.ก)/แพ็ค
@@ -105,7 +123,7 @@ const DailyReport = ({
                 บิลเลท <br />
                 เข้าโรงรีด
               </th>
-              <th rowSpan={2} className="max-w-[110px]">
+              <th rowSpan={2} className="min-w-[130px]">
                 หมายเลข บิลเลท
               </th>
               <th rowSpan={2}>
@@ -139,7 +157,7 @@ const DailyReport = ({
                 (ม.)
               </th>
             </tr>
-            <tr>
+            <tr className="bg-[#45464b] text-white">
               <th className="min-w-[60px]">หน้าจอ</th>
               <th>ผิว</th>
               <th className="min-w-[60px]">หน้าจอ</th>
@@ -160,8 +178,8 @@ const DailyReport = ({
                 <td>{row.skinType}</td>
                 <td>{row.billetType}</td>
                 <td>{row.customerName}</td>
-                <td>{row.start.toLocaleDateString()}</td>
-                <td>{row.end.toLocaleDateString()}</td>
+                <td>{showLocalTime(row.start)}</td>
+                <td>{showLocalTime(row.end)}</td>
                 <td>{row.dyNumber}</td>
                 <td>{row.dyScreen}</td>
                 <td>{row.dySkin}</td>
@@ -173,7 +191,7 @@ const DailyReport = ({
                 <td>{row.holeCount}</td>
                 <td>{row.averageWeight}</td>
                 <td>{row.billetWeight}</td>
-                <td>{row.factoryDate.toLocaleDateString()}</td>
+                <td>{showLocalDate(row.factoryDate)}</td>
                 <td>{row.billetNumber}</td>
                 <td>{row.ironingSize}</td>
                 <td>{row.tendon}</td>
@@ -225,10 +243,9 @@ const DailyReport = ({
         handlePage={handlePage}
         finalPage={finalPage}
         totalData={data.length}
-        setupPerPage={[19]}
+        setupPerPage={[10]}
       />
     </Fragment>
   );
 };
-
-export default DailyReport;
+export default LotsTable;

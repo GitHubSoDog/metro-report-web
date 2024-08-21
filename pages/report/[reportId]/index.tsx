@@ -3,7 +3,7 @@ import DatePickerInput from '@/components/common/DatePickerInput';
 import DropDown from '@/components/common/DropDown';
 import TextInput from '@/components/common/TextInput';
 import LotCrmModal from '@/components/feature/add-lot/LotCrmModal';
-import DailyReport from '@/components/feature/print-form/DailyReport';
+import LotsTable from '@/components/feature/lots-table/LotsTable';
 import { LOT_DEFAULT } from '@/constants/lot';
 import {
   APPROVE_LIST,
@@ -13,10 +13,9 @@ import {
 } from '@/constants/master-data';
 import withSession from '@/hoc/withSession';
 import useDailyReport from '@/hook/useDailyReport.hook';
-import { ChangeEventBaseType } from '@/type/event';
 import { Fragment } from 'react';
-import { IoSaveOutline } from 'react-icons/io5';
-import { MdFormatListBulletedAdd } from 'react-icons/md';
+import { IoBackspaceOutline, IoSaveOutline } from 'react-icons/io5';
+import { MdAdd, MdDownload } from 'react-icons/md';
 
 const Report = () => {
   const {
@@ -31,6 +30,8 @@ const Report = () => {
     onDeleteLots,
     onChangeReport,
     onChangeReportApprove,
+    onBackPageList,
+    onSubmitReport,
   } = useDailyReport();
   return (
     <Fragment>
@@ -39,120 +40,107 @@ const Report = () => {
           <p className="pr-6">รายงานการผลิตประจำวัน</p>
           <div className="w-[300px]">
             <DropDown
-              value={''}
-              textLabel={''}
-              onChange={function (event: ChangeEventBaseType<string>): void {
-                throw new Error('Function not implemented.');
-              }}
-              id={''}
-              name={''}
-              disabled={false}
+              value={report.department}
+              onChange={onChangeReport}
+              id={'department'}
+              name={'department'}
+              option={[
+                {
+                  value: 'ฝ่ายผลิตโรงรีด',
+                  lable: 'ฝ่ายผลิตโรงรีด',
+                },
+              ]}
+              disabled
             />
           </div>
         </div>
         <br />
-        Production Daily Report SU
-        <div className="pt-6 pb-6 mb-8 grid gap-2 border-b-2 md:grid-cols-4 xl:grid-cols-7">
+        <div className="flex justify-center items-center">
+          <p className="mr-4">Production Daily Report SU</p>
+          <TextInput
+            value={report.su}
+            onChange={onChangeReport}
+            id={'su'}
+            name={'su'}
+          />
+        </div>
+
+        <div className="pt-6 pb-6 mb-4 grid gap-2 border-b-2 md:grid-cols-4 xl:grid-cols-6">
           <div className="flex justify-center items-center">
-            <div className="pr-4">วันที่ เดือน ปี</div>
+            <div className="pr-4 min-w-[100px]">วันที่ เดือน ปี</div>
             <DatePickerInput
-              value={new Date()}
-              // onChange={function (event: ChangeEventBaseType<string>): void {
-              //   throw new Error('Function not implemented.');
-              // }}
-              id={''}
-              name={''}
-              disabled={false}
-              onChange={function (
-                event: ChangeEventBaseType<Date | null>
-              ): void {
-                throw new Error('Function not implemented.');
-              }}
+              value={report.dateReport}
+              onChange={onChangeReport}
+              id={'dateReport'}
+              name={'dateReport'}
               isShowDateOnly
             />
           </div>
           <div className="flex justify-center items-center">
             <div className="pr-4">เครื่อง</div>
             <TextInput
-              value={''}
-              textLabel={''}
-              onChange={function (event: ChangeEventBaseType<string>): void {
-                throw new Error('Function not implemented.');
-              }}
-              id={''}
-              name={''}
-              character={[]}
-              disabled={false}
+              value={report.machine}
+              onChange={onChangeReport}
+              id={'machine'}
+              name={'machine'}
               placeholder="ชื่อเครื่อง"
             />
           </div>
           <div className="flex justify-center items-center">
             <div className="pr-4">กะ</div>
             <TextInput
-              value={''}
-              textLabel={''}
-              onChange={function (event: ChangeEventBaseType<string>): void {
-                throw new Error('Function not implemented.');
-              }}
-              id={''}
-              name={''}
-              character={[]}
-              disabled={false}
-              placeholder="ชื่อเครื่อง"
+              value={report.duty}
+              onChange={onChangeReport}
+              id={'duty'}
+              name={'duty'}
             />
           </div>
           <div className="flex justify-center items-center">
-            <div className="pr-4">หัวหน้าไลน์</div>
+            <div className="pr-4 min-w-[100px]">หัวหน้าไลน์</div>
             <TextInput
-              value={''}
-              textLabel={''}
-              onChange={function (event: ChangeEventBaseType<string>): void {
-                throw new Error('Function not implemented.');
-              }}
-              id={''}
-              name={''}
-              character={[]}
-              disabled={false}
-              placeholder="ชื่อเครื่อง"
+              value={report.lineLeader}
+              onChange={onChangeReport}
+              id={'lineLeader'}
+              name={'lineLeader'}
             />
           </div>
           <div className="flex justify-center items-center">
             <div className="pr-4">เริ่ม</div>
             <DatePickerInput
-              value={new Date()}
-              // onChange={function (event: ChangeEventBaseType<string>): void {
-              //   throw new Error('Function not implemented.');
-              // }}
-              id={''}
-              name={''}
-              disabled={false}
-              onChange={function (
-                event: ChangeEventBaseType<Date | null>
-              ): void {
-                throw new Error('Function not implemented.');
-              }}
+              value={report.start}
+              onChange={onChangeReport}
+              id={'start'}
+              name={'start'}
               isShowTimeOnly
             />
           </div>
           <div className="flex justify-center items-center">
             <div className="pr-4">ถึง</div>
             <DatePickerInput
-              value={new Date()}
-              // onChange={function (event: ChangeEventBaseType<string>): void {
-              //   throw new Error('Function not implemented.');
-              // }}
-              id={''}
-              name={''}
-              disabled={false}
-              onChange={function (
-                event: ChangeEventBaseType<Date | null>
-              ): void {
-                throw new Error('Function not implemented.');
-              }}
+              value={report.end}
+              onChange={onChangeReport}
+              id={'end'}
+              name={'end'}
               isShowTimeOnly
             />
           </div>
-          <div className="flex justify-end items-center">
+        </div>
+        <div className="flex justify-between items-center mb-4 pl-4">
+          <div className="font-extrabold">รายการล็อต</div>
+          <div>
+            <Button
+              id={'export'}
+              onClick={() => {}}
+              type={'button'}
+              name={'export'}
+              className="mr-4"
+              theme="light"
+            >
+              <div className="flex justify-center items-center">
+                <MdDownload className="text-[18px] mr-2" />
+                Export
+              </div>
+            </Button>
             <Button
               id={'openModal'}
               onClick={() => onToggleOpenModal(LOT_DEFAULT, true)}
@@ -161,30 +149,18 @@ const Report = () => {
               className="mr-4"
             >
               <div className="flex justify-center items-center">
-                <MdFormatListBulletedAdd className="text-[20px] mr-2" />
+                <MdAdd className="text-[20px] mr-2" />
                 เพิ่มล็อต
-              </div>
-            </Button>
-            <Button
-              id={'openModal'}
-              onClick={() => {}}
-              type={'button'}
-              name={'openModal'}
-              theme="light"
-            >
-              <div className="flex justify-center items-center">
-                <IoSaveOutline className="text-[20px] mr-2" />
-                บันทึก
               </div>
             </Button>
           </div>
         </div>
-        <DailyReport
+        <LotsTable
           data={lotsList}
           onToggleOpenModal={onToggleOpenModal}
           onDeleteLots={onDeleteLots}
         />
-        <div className="flex justify-between items-center border-t-2 my-2 pt-6">
+        <div className="flex justify-between items-center border-y-2 pt-6 py-6 mb-6">
           <div className="grid gap-2 grid-cols-1">
             <div className="flex justify-center items-center">
               <div className="pr-4 w-[100px]">พนักงานรีด</div>
@@ -269,6 +245,32 @@ const Report = () => {
               />
             </div>
           </div>
+        </div>
+        <div className="flex justify-end items-center">
+          <Button
+            id={'back_page'}
+            onClick={onBackPageList}
+            type={'button'}
+            name={'back_page'}
+            theme="light"
+            className="mr-2"
+          >
+            <div className="flex justify-center items-center">
+              <IoBackspaceOutline className="text-[20px] mr-2" />
+              กลับ
+            </div>
+          </Button>
+          <Button
+            id={'submit_report'}
+            onClick={onSubmitReport}
+            type={'button'}
+            name={'submit_report'}
+          >
+            <div className="flex justify-center items-center">
+              <IoSaveOutline className="text-[20px] mr-2" />
+              บันทึก
+            </div>
+          </Button>
         </div>
       </div>
       <LotCrmModal
