@@ -103,9 +103,9 @@ const LotCrmModal = ({
             onChange={onChangeNewLot}
             id={'dyScreen'}
             name={'dyScreen'}
-            character={['number']}
+            character={['number', 'dot']}
             isShowIcon
-            maxLength={4}
+            maxLength={5}
           />
           <TextInput
             value={newLot.dySkin}
@@ -115,7 +115,7 @@ const LotCrmModal = ({
             name={'dySkin'}
             isShowIcon
             character={['number', 'dot']}
-            maxLength={4}
+            maxLength={5}
           />
           <TextInput
             value={newLot.billetScreen}
@@ -124,7 +124,7 @@ const LotCrmModal = ({
             id={'billetScreen'}
             name={'billetScreen'}
             character={['number', 'dot']}
-            maxLength={4}
+            maxLength={5}
             isShowIcon
           />
           <TextInput
@@ -135,7 +135,7 @@ const LotCrmModal = ({
             name={'billetMiddle'}
             isShowIcon
             character={['number', 'dot']}
-            maxLength={4}
+            maxLength={5}
           />
           <TextInput
             value={newLot.container}
@@ -144,7 +144,7 @@ const LotCrmModal = ({
             id={'container'}
             name={'container'}
             character={['number', 'dot']}
-            maxLength={4}
+            maxLength={5}
             isShowIcon
           />
           <div>ชุดประกอบร่วม</div>

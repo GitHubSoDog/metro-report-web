@@ -50,7 +50,7 @@ const LotsTable = ({
       >
         <table className="table-custom">
           <thead>
-            <tr className="bg-[#323338] text-white">
+            <tr className="bg-[#54565e] text-white">
               <th rowSpan={3} className="min-w-[100px] ">
                 ล็อตที่
               </th>
@@ -83,7 +83,7 @@ const LotsTable = ({
               <th colSpan={3} rowSpan={2} className="min-w-[160px]">
                 จำนวนเส้นที่ตัดได้
               </th>
-              <th rowSpan={3} className="min-w-[130px]">
+              <th rowSpan={3} className="min-w-[140px]">
                 ความเร็วพูลเลอร์
                 <br />
                 m/min
@@ -93,12 +93,12 @@ const LotsTable = ({
               </th>
               <th
                 rowSpan={3}
-                className="min-w-[120px] sticky right-0 border-solid border border-[#323338] bg-[#323338] text-white"
+                className="min-w-[120px] sticky right-0 border-solid border border-[#323338] bg-[#54565e] text-white"
               >
                 Action
               </th>
             </tr>
-            <tr className="bg-[#555556] text-white">
+            <tr className="bg-[#777a85] text-white">
               <th rowSpan={2}>เริ่ม</th>
               <th rowSpan={2}>เสร็จ</th>
               <th rowSpan={2}>เบอร์</th>
@@ -157,7 +157,7 @@ const LotsTable = ({
                 (ม.)
               </th>
             </tr>
-            <tr className="bg-[#45464b] text-white">
+            <tr className="bg-[#777a85] text-white">
               <th className="min-w-[60px]">หน้าจอ</th>
               <th>ผิว</th>
               <th className="min-w-[60px]">หน้าจอ</th>

@@ -29,7 +29,7 @@ const ReportTable = ({ reportList = [], routeEdit }: TablePropsType) => {
       <div className="relative overflow-x-auto shadow-md">
         <table className="table-custom">
           <thead>
-            <tr className="border-none">
+            <tr className="border-none bg-[#54565e] text-white">
               <th
                 className="min-w-[80px]"
                 onClick={() => handleSorting('date')}
@@ -68,7 +68,7 @@ const ReportTable = ({ reportList = [], routeEdit }: TablePropsType) => {
                       onClick={() => routeEdit(row.reportId)}
                       type={'button'}
                       name={'Edit'}
-                      theme="danger"
+                      theme="light"
                     >
                       <CiEdit className="text-[20px]" />
                     </Button>

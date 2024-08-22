@@ -15,7 +15,7 @@ import withSession from '@/hoc/withSession';
 import useDailyReport from '@/hook/useDailyReport.hook';
 import { Fragment } from 'react';
 import { IoBackspaceOutline, IoSaveOutline } from 'react-icons/io5';
-import { MdAdd, MdDownload } from 'react-icons/md';
+import { MdAdd, MdDownload, MdReportGmailerrorred } from 'react-icons/md';
 
 const Report = () => {
   const {
@@ -33,6 +33,7 @@ const Report = () => {
     onBackPageList,
     onSubmitReport,
   } = useDailyReport();
+
   return (
     <Fragment>
       <div className="shadow-panel text-center">
@@ -155,11 +156,35 @@ const Report = () => {
             </Button>
           </div>
         </div>
-        <LotsTable
-          data={lotsList}
-          onToggleOpenModal={onToggleOpenModal}
-          onDeleteLots={onDeleteLots}
-        />
+        {lotsList.length > 0 ? (
+          <LotsTable
+            data={lotsList}
+            onToggleOpenModal={onToggleOpenModal}
+            onDeleteLots={onDeleteLots}
+          />
+        ) : (
+          <div className="flex flex-col justify-center items-center mb-4 border border-red-600 pt-4">
+            <div>
+              <MdReportGmailerrorred className="text-red-500 text-5xl mb-4" />
+            </div>
+            <div className="text-red-500 font-extrabold mb-4">
+              - ยังไม่มีรายการล็อตเข้ามาในระบบ กรุณากดเพิ่มล็อต -
+            </div>
+            <Button
+              id={'openModal'}
+              onClick={() => onToggleOpenModal(LOT_DEFAULT, true)}
+              type={'button'}
+              name={'openModal'}
+              className="mb-4"
+            >
+              <div className="flex justify-center items-center">
+                <MdAdd className="text-[20px] mr-2" />
+                เพิ่มล็อต
+              </div>
+            </Button>
+          </div>
+        )}
+
         <div className="flex justify-between items-center border-y-2 pt-6 py-6 mb-6">
           <div className="grid gap-2 grid-cols-1">
             <div className="flex justify-center items-center">

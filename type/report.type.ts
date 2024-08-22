@@ -1,7 +1,7 @@
 import { LotType } from './lots.type';
 
 export type ReportType = {
-  id: string;
+  reportId: string;
   su: string;
   dateReport: Date;
   machine: string;

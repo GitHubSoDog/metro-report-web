@@ -14,7 +14,7 @@ const useDailyReport = () => {
   const router = useRouter();
 
   const [report, setReport] = useState<ReportType>({
-    id: '',
+    reportId: '',
     su: '',
     dateReport: new Date(),
     machine: '',
