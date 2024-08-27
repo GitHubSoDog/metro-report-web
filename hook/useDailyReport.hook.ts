@@ -1,5 +1,12 @@
+import ssrInstance from '@/configuration/service-side.http';
 import { LOT_DEFAULT } from '@/constants/lot';
+import { transformApiToLotsReport, transformToIotApi } from '@/dto/iot.dto';
+import {
+  reportApiDataTransformToReport,
+  transformDatesToString,
+} from '@/dto/report.dto';
 import { ChangeEventBaseType } from '@/type/event';
+import { IotServiceType } from '@/type/iot-api';
 import { LotType } from '@/type/lots.type';
 import {
   ApproveReportType,
@@ -7,17 +14,19 @@ import {
   ReportType,
 } from '@/type/report.type';
 import { genarateIdNormal } from '@/utilities/normal-fn';
+import axios, { CancelTokenSource } from 'axios';
 import { useRouter } from 'next/router';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import Swal from 'sweetalert2';
 
 const useDailyReport = () => {
   const router = useRouter();
-
+  const { status, reportId } = router.query;
   const [report, setReport] = useState<ReportType>({
-    reportId: '',
+    reportId: reportId as string,
     su: '',
     dateReport: new Date(),
-    machine: '',
+    machine: 'metroiot02',
     duty: '',
     lineLeader: '',
     start: new Date(),
@@ -47,6 +56,44 @@ const useDailyReport = () => {
   });
   const [newLot, setNewLot] = useState<LotType>({ ...LOT_DEFAULT });
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    const source = axios.CancelToken.source();
+
+    if (router.isReady && !status) {
+      fetchReport(source, reportId as string);
+    }
+
+    return () => {
+      source.cancel('Operation canceled by the user.');
+      setLoading(false);
+    };
+  }, [router]);
+
+  const fetchReport = async (source: CancelTokenSource, reportId: string) => {
+    try {
+      setLoading(true);
+      const response = await ssrInstance.get<ReportType>(
+        `/daliy-report/${reportId}`,
+        {
+          cancelToken: source.token,
+        }
+      );
+
+      setReport(reportApiDataTransformToReport(response.data));
+    } catch (err) {
+      if (!axios.isCancel(err)) {
+        Swal.fire({
+          title: 'เกิดข้อผิดพลาด',
+          text: 'กรุณาติดต่อผู้พัฒนา',
+          icon: 'warning',
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const onChangeNewLot = (
     event: ChangeEventBaseType<string | Date | null, keyof LotType>
@@ -102,23 +149,120 @@ const useDailyReport = () => {
     setNewLot({ ...LOT_DEFAULT });
   };
 
-  const onSubmitReport = () => {
-    //api
-    // Save DB
-    //api
+  const onSubmitReport = async () => {
+    if (status === 'new') {
+      // create
+      try {
+        setLoading(true);
+        await ssrInstance.post<ReportType>(
+          `/daliy-report/${reportId}`,
+          transformDatesToString(report)
+        );
+        Swal.fire({
+          title: 'Success',
+          text: 'สร้างรายงานสำเร็จ',
+          icon: 'success',
+        }).then(() => {
+          router.push('/');
+        });
+      } catch (err) {
+        if (!axios.isCancel(err)) {
+          Swal.fire({
+            title: 'เกิดข้อผิดพลาด',
+            text: 'กรุณาติดต่อผู้พัฒนา',
+            icon: 'warning',
+          });
+        }
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      // update
+      try {
+        setLoading(true);
+        await ssrInstance.patch<ReportType>(
+          `/daliy-report/${reportId}`,
+          transformDatesToString(report)
+        );
+        Swal.fire({
+          title: 'Success',
+          text: 'แก้ไขรายงานสำเร็จ',
+          icon: 'success',
+        }).then(() => {
+          router.push('/');
+        });
+      } catch (err) {
+        if (!axios.isCancel(err)) {
+          Swal.fire({
+            title: 'เกิดข้อผิดพลาด',
+            text: 'กรุณาติดต่อผู้พัฒนา',
+            icon: 'warning',
+          });
+        }
+      } finally {
+        setLoading(false);
+      }
+    }
   };
 
   const onBackPageList = () => {
     router.push(`/`);
   };
 
-  const onDeleteLots = (lotId: string) => {
-    // api
+  const removeCheck = (lotId: string) => {
+    Swal.fire({
+      title: 'คุณต้องการจะลบใช่หรือไม่ ?',
+      showCancelButton: true,
+      confirmButtonText: 'ลบ',
+      confirmButtonColor: 'red',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await onDeleteLots(lotId);
+      }
+    });
+  };
 
+  const onDeleteLots = async (lotId: string) => {
     // api
-    let copyReport = { ...report };
-    delete copyReport.lots[lotId];
-    setReport({ ...copyReport });
+    try {
+      setLoading(true);
+      await ssrInstance.delete<boolean>(
+        `/lots-report/${reportId}?lotId=${lotId}`
+      );
+      // api
+      let copyReport = { ...report };
+      delete copyReport.lots[lotId];
+      setReport({ ...copyReport });
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+
+      Swal.fire({
+        title: 'เกิดข้อผิดพลาด',
+        text: 'กรุณาติดต่อผู้พัฒนา',
+        icon: 'warning',
+      });
+    }
+  };
+
+  const onRequestLotsIoT = async () => {
+    try {
+      setLoading(true);
+      const response = await ssrInstance.post<IotServiceType[]>(
+        `/iot/${report.machine}`,
+        transformToIotApi(report)
+      );
+      const data = transformApiToLotsReport(lotsList, response.data);
+      setReport((prev) => ({ ...prev, lots: { ...data } }));
+    } catch (err) {
+      Swal.fire({
+        title: 'เกิดข้อผิดพลาด',
+        text: 'กรุณาติดต่อผู้พัฒนา',
+        icon: 'warning',
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const lotsList = useMemo<LotType[]>(() => {
@@ -134,11 +278,13 @@ const useDailyReport = () => {
     isOpenModal,
     onSubmitAddLot,
     lotsList,
-    onDeleteLots,
     onChangeReport,
     onChangeReportApprove,
     onBackPageList,
     onSubmitReport,
+    isLoading,
+    removeCheck,
+    onRequestLotsIoT,
   };
 };
 

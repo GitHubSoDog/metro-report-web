@@ -8,8 +8,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const { method, query } = req;
     switch (method) {
-      case 'GET':
-        if (!query.page || !query.limit) {
+      case 'DELETE':
+        if (!query?.reportId && !query.lotId) {
           res.status(400).json({
             success: false,
             errorCode: EXCEPTION_CODE_RESPONSE.GET_01.code,
@@ -17,17 +17,17 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
           });
           break;
         }
-        const data = reportService.getListReport(
-          query.page as string,
-          query.limit as string
+        const deleted = reportService.deleteLotReport(
+          query.reportId as string,
+          query.lotId as string
         );
-        if (data) {
-          res.status(200).json(data);
+        if (deleted) {
+          res.status(204).end();
         } else {
           res.status(404).json({
             success: false,
-            errorCode: EXCEPTION_CODE_RESPONSE.GET_02.code,
-            message: EXCEPTION_CODE_RESPONSE.GET_02.msg,
+            errorCode: EXCEPTION_CODE_RESPONSE.GET_05.code,
+            message: EXCEPTION_CODE_RESPONSE.GET_05.msg,
           });
         }
         break;

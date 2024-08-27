@@ -2,105 +2,89 @@ import Button from '@/components/common/Button';
 import ReportTable from '@/components/feature/report-list/ReportTable';
 import withSession from '@/hoc/withSession';
 import useReport from '@/hook/useReport.hook';
-import { ListReportType } from '@/type/list.type';
-import { MouseEvent } from 'react';
+import { MdAdd, MdReportGmailerrorred } from 'react-icons/md';
 
 const List = () => {
-  const { routeEdit } = useReport();
-  const handleSubmit = async () => {
-    const response = await fetch('/api/daliy-report', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ message: { id: 'test' } }),
-    });
-    const result = await response.json();
-  };
-  const reportList: ListReportType[] = [
-    {
-      reportId: '1',
-      date: '2024-08-12',
-      createDate: '2024-08-12 00:00:12',
-    },
-    {
-      reportId: '1',
-      date: '2024-08-12',
-      createDate: '2024-08-12 00:00:12',
-    },
-    {
-      reportId: '1',
-      date: '2024-08-12',
-      createDate: '2024-08-12 00:00:12',
-    },
-    {
-      reportId: '1',
-      date: '2024-08-12',
-      createDate: '2024-08-12 00:00:12',
-    },
-    {
-      reportId: '1',
-      date: '2024-08-12',
-      createDate: '2024-08-12 00:00:12',
-    },
-    {
-      reportId: '1',
-      date: '2024-08-12',
-      createDate: '2024-08-12 00:00:12',
-    },
-    {
-      reportId: '1',
-      date: '2024-08-12',
-      createDate: '2024-08-12 00:00:12',
-    },
-    {
-      reportId: '1',
-      date: '2024-08-12',
-      createDate: '2024-08-12 00:00:12',
-    },
-    {
-      reportId: '1',
-      date: '2024-08-12',
-      createDate: '2024-08-12 00:00:12',
-    },
-    {
-      reportId: '1',
-      date: '2024-08-12',
-      createDate: '2024-08-12 00:00:12',
-    },
-    {
-      reportId: '1',
-      date: '2024-08-12',
-      createDate: '2024-08-12 00:00:12',
-    },
-    {
-      reportId: '1',
-      date: '2024-08-12',
-      createDate: '2024-08-12 00:00:12',
-    },
-  ];
+  const {
+    routeEdit,
+    isLoading,
+    report,
+    total,
+    fieldNameSort,
+    handleSorting,
+    page,
+    sizePage,
+    handlePerPage,
+    handlePage,
+    firstPage,
+    finalPage,
+    routeNewReport,
+    removeCheck,
+    dataTableList,
+  } = useReport();
+
+  if (isLoading) return <>Loading...</>;
 
   return (
     <div className="shadow-panel">
       <div className="flex justify-between items-baseline pb-2">
         <h1 className="mb-4 text-xl font-extrabold leading-none tracking-tight md:text-xl lg:text-xl">
-          Daily{' '}
-          <span className="underline underline-offset-3 decoration-2 decoration-primary">
-            Report
-          </span>
+          Daily Report
         </h1>
-        <Button
-          id={'Add Report'}
-          onClick={handleSubmit}
-          type={'button'}
-          name={'Add Report'}
-          theme="success"
-        >
-          Add Report
-        </Button>
+        {total === 0 ? null : (
+          <Button
+            id={'Add Report'}
+            onClick={routeNewReport}
+            type={'button'}
+            name={'Add Report'}
+            className="mb-4"
+            theme="success"
+          >
+            <div className="flex justify-center items-center">
+              <MdAdd className="text-[20px] mr-2" />
+              Add Report
+            </div>
+          </Button>
+        )}
       </div>
-
-      <ReportTable reportList={reportList} routeEdit={routeEdit} />
+      {total === 0 ? (
+        <div className="flex flex-col justify-center items-center mb-4 border border-red-600 pt-4">
+          <div>
+            <MdReportGmailerrorred className="text-red-500 text-5xl mb-4" />
+          </div>
+          <div className="text-red-500 font-extrabold mb-4">
+            - ยังไม่มี Report ในระบบ กรุณากด Add Report-
+          </div>
+          <Button
+            id={'Add Report'}
+            onClick={routeNewReport}
+            type={'button'}
+            name={'Add Report'}
+            className="mb-4"
+            theme="success"
+          >
+            <div className="flex justify-center items-center">
+              <MdAdd className="text-[20px] mr-2" />
+              Add Report
+            </div>
+          </Button>
+        </div>
+      ) : (
+        <ReportTable
+          totalData={total}
+          reportList={dataTableList}
+          routeEdit={routeEdit}
+          fieldNameSort={fieldNameSort}
+          handleSorting={handleSorting}
+          page={page}
+          sizePage={sizePage}
+          handlePerPage={handlePerPage}
+          handlePage={handlePage}
+          firstPage={firstPage}
+          finalPage={finalPage}
+          removeCheck={removeCheck}
+        />
+      )}
     </div>
   );
 };

@@ -14,6 +14,7 @@ import {
 import withSession from '@/hoc/withSession';
 import useDailyReport from '@/hook/useDailyReport.hook';
 import { Fragment } from 'react';
+import { FiDownloadCloud } from 'react-icons/fi';
 import { IoBackspaceOutline, IoSaveOutline } from 'react-icons/io5';
 import { MdAdd, MdDownload, MdReportGmailerrorred } from 'react-icons/md';
 
@@ -27,16 +28,46 @@ const Report = () => {
     isOpenModal,
     onSubmitAddLot,
     lotsList,
-    onDeleteLots,
     onChangeReport,
     onChangeReportApprove,
     onBackPageList,
     onSubmitReport,
+    isLoading,
+    removeCheck,
+    onRequestLotsIoT,
   } = useDailyReport();
+
+  if (isLoading) return <>Loading</>;
 
   return (
     <Fragment>
-      <div className="shadow-panel text-center">
+      <div className="shadow-panel text-center relative">
+        <Button
+          id={'submit_report'}
+          onClick={onSubmitReport}
+          type={'button'}
+          name={'submit_report'}
+          className="absolute top-8 right-8"
+          theme="success"
+        >
+          <div className="flex justify-center items-center">
+            <IoSaveOutline className="text-[20px] mr-2" />
+            บันทึก
+          </div>
+        </Button>
+        <Button
+          id={'export'}
+          onClick={() => {}}
+          type={'button'}
+          name={'export'}
+          className="absolute top-8 right-[9rem]"
+          theme="light"
+        >
+          <div className="flex justify-center items-center">
+            <MdDownload className="text-[18px] mr-2" />
+            Export PDF
+          </div>
+        </Button>
         <div className="flex justify-center items-center min-w-[600px]">
           <p className="pr-6">รายงานการผลิตประจำวัน</p>
           <div className="w-[300px]">
@@ -79,13 +110,22 @@ const Report = () => {
           </div>
           <div className="flex justify-center items-center">
             <div className="pr-4">เครื่อง</div>
-            <TextInput
-              value={report.machine}
-              onChange={onChangeReport}
-              id={'machine'}
-              name={'machine'}
-              placeholder="ชื่อเครื่อง"
-            />
+            <div className="w-full">
+              <DropDown
+                value={report.machine}
+                onChange={onChangeReport}
+                id={'machine'}
+                name={'machine'}
+                placeholder="ชื่อเครื่อง"
+                option={[
+                  {
+                    value: 'metroiot02',
+                    lable: 'metroiot02',
+                  },
+                ]}
+                disabled
+              />
+            </div>
           </div>
           <div className="flex justify-center items-center">
             <div className="pr-4">กะ</div>
@@ -129,38 +169,42 @@ const Report = () => {
         <div className="flex justify-between items-center mb-4 pl-4">
           <div className="font-extrabold">รายการล็อต</div>
           <div>
-            <Button
-              id={'export'}
-              onClick={() => {}}
-              type={'button'}
-              name={'export'}
-              className="mr-4"
-              theme="light"
-            >
-              <div className="flex justify-center items-center">
-                <MdDownload className="text-[18px] mr-2" />
-                Export
-              </div>
-            </Button>
-            <Button
-              id={'openModal'}
-              onClick={() => onToggleOpenModal(LOT_DEFAULT, true)}
-              type={'button'}
-              name={'openModal'}
-              className="mr-4"
-            >
-              <div className="flex justify-center items-center">
-                <MdAdd className="text-[20px] mr-2" />
-                เพิ่มล็อต
-              </div>
-            </Button>
+            {lotsList.length > 0 ? (
+              <Fragment>
+                <Button
+                  id={'onRequestLotsIoT'}
+                  onClick={onRequestLotsIoT}
+                  type={'button'}
+                  name={'openModal'}
+                  className="mr-4"
+                  theme="info"
+                >
+                  <div className="flex justify-center items-center">
+                    <FiDownloadCloud className="text-[20px] mr-2" />
+                    ข้อมูลจากระบบ
+                  </div>
+                </Button>
+                <Button
+                  id={'addLots'}
+                  onClick={() => onToggleOpenModal(LOT_DEFAULT, true)}
+                  type={'button'}
+                  name={'openModal'}
+                  className="mr-4"
+                >
+                  <div className="flex justify-center items-center">
+                    <MdAdd className="text-[20px] mr-2" />
+                    เพิ่มล็อต
+                  </div>
+                </Button>
+              </Fragment>
+            ) : null}
           </div>
         </div>
         {lotsList.length > 0 ? (
           <LotsTable
             data={lotsList}
             onToggleOpenModal={onToggleOpenModal}
-            onDeleteLots={onDeleteLots}
+            removeCheck={removeCheck}
           />
         ) : (
           <div className="flex flex-col justify-center items-center mb-4 border border-red-600 pt-4">
@@ -168,20 +212,35 @@ const Report = () => {
               <MdReportGmailerrorred className="text-red-500 text-5xl mb-4" />
             </div>
             <div className="text-red-500 font-extrabold mb-4">
-              - ยังไม่มีรายการล็อตเข้ามาในระบบ กรุณากดเพิ่มล็อต -
+              - ยังไม่มีรายการล็อตเข้ามาในระบบ กรุณากดเพิ่มล็อต หรือ
+              กดข้อมูลจากระบบ -
             </div>
-            <Button
-              id={'openModal'}
-              onClick={() => onToggleOpenModal(LOT_DEFAULT, true)}
-              type={'button'}
-              name={'openModal'}
-              className="mb-4"
-            >
-              <div className="flex justify-center items-center">
-                <MdAdd className="text-[20px] mr-2" />
-                เพิ่มล็อต
-              </div>
-            </Button>
+            <div className="flex mb-4">
+              <Button
+                id={'onToggleOpenModal'}
+                onClick={() => onToggleOpenModal(LOT_DEFAULT, true)}
+                type={'button'}
+                name={'openModal'}
+                className="mr-2"
+              >
+                <div className="flex justify-center items-center">
+                  <MdAdd className="text-[20px] mr-2" />
+                  เพิ่มล็อต
+                </div>
+              </Button>
+              <Button
+                id={'openModal'}
+                onClick={onRequestLotsIoT}
+                type={'button'}
+                name={'openModal'}
+                theme="info"
+              >
+                <div className="flex justify-center items-center">
+                  <FiDownloadCloud className="text-[20px] mr-2" />
+                  ข้อมูลจากระบบ
+                </div>
+              </Button>
+            </div>
           </div>
         )}
 
@@ -290,6 +349,7 @@ const Report = () => {
             onClick={onSubmitReport}
             type={'button'}
             name={'submit_report'}
+            theme="success"
           >
             <div className="flex justify-center items-center">
               <IoSaveOutline className="text-[20px] mr-2" />

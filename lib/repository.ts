@@ -1,3 +1,4 @@
+import { PaginationListType } from '@/type/list.type';
 import { ReportType } from '@/type/report.type';
 import fs from 'fs';
 import path from 'path';
@@ -5,15 +6,26 @@ import path from 'path';
 const CACHE_FILE_PATH = path.join(process.cwd(), 'data', 'cache.json');
 
 export class ReportRepository {
-  getList(pageNumber: number, limitNumber: number) {
+  getList(
+    pageNumber: number,
+    limitNumber: number
+  ): PaginationListType<ReportType> | null {
     const report = this.readCache();
     if (!report) {
       return null;
     }
     const keys = Object.keys(report);
+
+    const sortedKeys = keys.sort((a, b) => {
+      const dateA = new Date(report[a].createdAt);
+      const dateB = new Date(report[b].createdAt);
+      return dateB.getTime() - dateA.getTime();
+    });
+
     const startIndex = (pageNumber - 1) * limitNumber;
     const endIndex = startIndex + limitNumber;
-    const paginatedKeys = keys.slice(startIndex, endIndex);
+    const paginatedKeys = sortedKeys.slice(startIndex, endIndex);
+
     const paginatedData: ReportType[] = paginatedKeys.map((key) => report[key]);
     return {
       page: pageNumber,
@@ -49,6 +61,17 @@ export class ReportRepository {
     }
     let updated = { ...report };
     delete updated?.[reportId];
+    this.writeCache(updated);
+    return true;
+  }
+
+  removeLot(reportId: string, lotId: string) {
+    const report = this.readCache();
+    if (!report) {
+      return null;
+    }
+    let updated = { ...report };
+    delete updated?.[reportId]?.lots?.[lotId];
     this.writeCache(updated);
     return true;
   }

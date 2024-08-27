@@ -6,18 +6,22 @@ import { CiEdit } from 'react-icons/ci';
 import { MdDelete } from 'react-icons/md';
 import Pagination from '../pagination/Pagination';
 import useScrollbar from '@/hook/useScrollbar.hook';
-import { showLocalDate, showLocalTime } from '@/utilities/normal-fn';
+import {
+  formatNumber,
+  showLocalDate,
+  showLocalTime,
+} from '@/utilities/normal-fn';
 
 type LotsTablePropsType = {
   data: LotType[];
   onToggleOpenModal: (data: LotType, isNewLot: boolean) => void;
-  onDeleteLots: (lotId: string) => void;
+  removeCheck: (lotId: string) => void;
 };
 
 const LotsTable = ({
   data,
   onToggleOpenModal,
-  onDeleteLots,
+  removeCheck,
 }: LotsTablePropsType) => {
   const {
     scrollRef,
@@ -50,7 +54,7 @@ const LotsTable = ({
       >
         <table className="table-custom">
           <thead>
-            <tr className="bg-[#54565e] text-white">
+            <tr className="bg-[#e4e6f0] text-black">
               <th rowSpan={3} className="min-w-[100px] ">
                 ล็อตที่
               </th>
@@ -93,12 +97,12 @@ const LotsTable = ({
               </th>
               <th
                 rowSpan={3}
-                className="min-w-[120px] sticky right-0 border-solid border border-[#323338] bg-[#54565e] text-white"
+                className="min-w-[120px] sticky right-0 border-solid border border-[#323338] bg-[#e4e6f0] text-black"
               >
                 Action
               </th>
             </tr>
-            <tr className="bg-[#777a85] text-white">
+            <tr className="bg-[#9ea2b0] text-black">
               <th rowSpan={2}>เริ่ม</th>
               <th rowSpan={2}>เสร็จ</th>
               <th rowSpan={2}>เบอร์</th>
@@ -126,28 +130,18 @@ const LotsTable = ({
               <th rowSpan={2} className="min-w-[130px]">
                 หมายเลข บิลเลท
               </th>
-              <th rowSpan={2}>
-                ขนาด
-                <br />
-                ตัด
-                <br />
-                เพื่อรีด
+              <th rowSpan={2} className="min-w-[130px]">
+                ขนาดตัดเพื่อรีด
               </th>
-              <th rowSpan={2}>
-                ***
-                <br /> เผื่อบัด
-                <br />
-                เอ็น
+              <th rowSpan={2} className="min-w-[130px]">
+                *** เผื่อบัดเอ็น
               </th>
               <th rowSpan={2}>จำนวน</th>
-              <th rowSpan={2}>
-                ครั้ง /<br /> ลูก
+              <th rowSpan={2} className="min-w-[80px]">
+                ครั้ง / ลูก
               </th>
-              <th rowSpan={2}>
-                ความ
-                <br />
-                ยาวบน <br />
-                ร้าน (น.)
+              <th rowSpan={2} className="min-w-[120px]">
+                ความยาวบนร้าน (น.)
               </th>
               <th rowSpan={2}>
                 ลูกค้า
@@ -157,7 +151,7 @@ const LotsTable = ({
                 (ม.)
               </th>
             </tr>
-            <tr className="bg-[#777a85] text-white">
+            <tr className="bg-[#e4e6f0] text-black">
               <th className="min-w-[60px]">หน้าจอ</th>
               <th>ผิว</th>
               <th className="min-w-[60px]">หน้าจอ</th>
@@ -199,8 +193,8 @@ const LotsTable = ({
                 <td>{row.times}</td>
                 <td>{row.longShop}</td>
                 <td>{row.longExpect}</td>
-                <td>{row.good}</td>
-                <td>{row.waste}</td>
+                <td>{formatNumber(row.good)}</td>
+                <td>{formatNumber(row.waste)}</td>
                 <td>{row.wastePercent}</td>
                 <td>{row.speedPull}</td>
                 <td className="min-w-[100px] max-w-[100px] break-words">
@@ -220,7 +214,7 @@ const LotsTable = ({
                     </Button>
                     <Button
                       id={'remove'}
-                      onClick={() => onDeleteLots(row.lotId)}
+                      onClick={() => removeCheck(row.lotId)}
                       type={'button'}
                       name={'remove'}
                       theme="danger"

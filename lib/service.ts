@@ -22,7 +22,11 @@ export class ReportService {
     reportId: string,
     report: ReportType
   ): Partial<ReportType> | null {
-    return this.reportRepository.set(reportId, report);
+    return this.reportRepository.set(reportId, {
+      ...report,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
   }
 
   updateReport(
@@ -33,7 +37,10 @@ export class ReportService {
     if (!data) {
       return null;
     }
-    return this.reportRepository.set(reportId, report);
+    return this.reportRepository.set(reportId, {
+      ...report,
+      updatedAt: new Date(),
+    });
   }
 
   deleteReport(reportId: string): true | null {
@@ -42,5 +49,13 @@ export class ReportService {
       return null;
     }
     return this.reportRepository.remove(reportId);
+  }
+
+  deleteLotReport(reportId: string, lotId: string): true | null {
+    const data = this.reportRepository.get(reportId);
+    if (!data) {
+      return null;
+    }
+    return this.reportRepository.removeLot(reportId, lotId);
   }
 }

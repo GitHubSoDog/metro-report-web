@@ -19,7 +19,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         }
         const data = reportService.getReport(query.reportId as string);
         if (data) {
-          res.status(200).json({ success: true, data });
+          res.status(200).json(data);
         } else {
           res.status(404).json({
             success: false,
@@ -43,7 +43,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
           newData
         );
         if (created) {
-          res.status(201).json({ success: true, data: created });
+          res.status(201).json(created);
         } else {
           res.status(404).json({
             success: false,
@@ -67,7 +67,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
           patchData
         );
         if (updated) {
-          res.status(201).json({ success: true, data: updated });
+          res.status(201).json(updated);
         } else {
           res.status(404).json({
             success: false,
