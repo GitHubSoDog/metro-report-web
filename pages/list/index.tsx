@@ -1,6 +1,7 @@
 import Button from '@/components/common/Button';
 import ReportTable from '@/components/feature/report-list/ReportTable';
 import withSession from '@/hoc/withSession';
+import usePrintExport from '@/hook/usePrintExport.hook';
 import useReport from '@/hook/useReport.hook';
 import { MdAdd, MdReportGmailerrorred } from 'react-icons/md';
 
@@ -22,7 +23,7 @@ const List = () => {
     removeCheck,
     dataTableList,
   } = useReport();
-
+  const {} = usePrintExport({ nameReport: '' });
   if (isLoading) return <>Loading...</>;
 
   return (

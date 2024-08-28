@@ -18,6 +18,8 @@ import axios, { CancelTokenSource } from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import Swal from 'sweetalert2';
+import useTable from './useTable.hook';
+import useScrollbar from './useScrollbar.hook';
 
 const useDailyReport = () => {
   const router = useRouter();
@@ -154,16 +156,17 @@ const useDailyReport = () => {
       // create
       try {
         setLoading(true);
-        await ssrInstance.post<ReportType>(
-          `/daliy-report/${reportId}`,
-          transformDatesToString(report)
-        );
+        const data = transformDatesToString<object>(report);
+        console.log('data ->> ', data);
+        await ssrInstance.post<ReportType>(`/daliy-report/${reportId}`, {
+          ...data,
+        });
         Swal.fire({
           title: 'Success',
           text: 'สร้างรายงานสำเร็จ',
           icon: 'success',
         }).then(() => {
-          router.push('/');
+          router.push(`/report/${reportId}`);
         });
       } catch (err) {
         if (!axios.isCancel(err)) {
@@ -224,24 +227,30 @@ const useDailyReport = () => {
 
   const onDeleteLots = async (lotId: string) => {
     // api
-    try {
-      setLoading(true);
-      await ssrInstance.delete<boolean>(
-        `/lots-report/${reportId}?lotId=${lotId}`
-      );
-      // api
+    if (status === 'new') {
       let copyReport = { ...report };
       delete copyReport.lots[lotId];
       setReport({ ...copyReport });
-      setLoading(false);
-    } catch (err) {
-      setLoading(false);
+    } else {
+      try {
+        setLoading(true);
+        await ssrInstance.delete<boolean>(
+          `/lots-report/${reportId}?lotId=${lotId}`
+        );
+        // api
+        let copyReport = { ...report };
+        delete copyReport.lots[lotId];
+        setReport({ ...copyReport });
+        setLoading(false);
+      } catch (err) {
+        setLoading(false);
 
-      Swal.fire({
-        title: 'เกิดข้อผิดพลาด',
-        text: 'กรุณาติดต่อผู้พัฒนา',
-        icon: 'warning',
-      });
+        Swal.fire({
+          title: 'เกิดข้อผิดพลาด',
+          text: 'กรุณาติดต่อผู้พัฒนา',
+          icon: 'warning',
+        });
+      }
     }
   };
 
@@ -269,6 +278,23 @@ const useDailyReport = () => {
     return Object.values(report?.lots || {});
   }, [report]);
 
+  const {
+    scrollRef,
+    handleMouseMove,
+    handleMouseUp,
+    handleMouseLeave,
+    handleMouseDown,
+  } = useScrollbar();
+  const {
+    page,
+    sizePage,
+    dataTableList,
+    handlePerPage,
+    handlePage,
+    firstPage,
+    finalPage,
+  } = useTable(lotsList, 10);
+
   return {
     newLot,
     onChangeNewLot,
@@ -277,7 +303,8 @@ const useDailyReport = () => {
     onToggleOpenModal,
     isOpenModal,
     onSubmitAddLot,
-    lotsList,
+    lotsList: dataTableList,
+    total: lotsList?.length || 0,
     onChangeReport,
     onChangeReportApprove,
     onBackPageList,
@@ -285,6 +312,17 @@ const useDailyReport = () => {
     isLoading,
     removeCheck,
     onRequestLotsIoT,
+    page,
+    sizePage,
+    handlePerPage,
+    handlePage,
+    firstPage,
+    finalPage,
+    scrollRef,
+    handleMouseMove,
+    handleMouseUp,
+    handleMouseLeave,
+    handleMouseDown,
   };
 };
 

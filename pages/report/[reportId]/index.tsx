@@ -35,6 +35,18 @@ const Report = () => {
     isLoading,
     removeCheck,
     onRequestLotsIoT,
+    page,
+    sizePage,
+    handlePerPage,
+    handlePage,
+    firstPage,
+    finalPage,
+    scrollRef,
+    handleMouseMove,
+    handleMouseUp,
+    handleMouseLeave,
+    handleMouseDown,
+    total,
   } = useDailyReport();
 
   if (isLoading) return <>Loading</>;
@@ -205,6 +217,18 @@ const Report = () => {
             data={lotsList}
             onToggleOpenModal={onToggleOpenModal}
             removeCheck={removeCheck}
+            page={page}
+            sizePage={sizePage}
+            handlePerPage={handlePerPage}
+            handlePage={handlePage}
+            firstPage={firstPage}
+            finalPage={finalPage}
+            scrollRef={scrollRef}
+            handleMouseMove={handleMouseMove}
+            handleMouseUp={handleMouseUp}
+            handleMouseLeave={handleMouseLeave}
+            handleMouseDown={handleMouseDown}
+            total={total}
           />
         ) : (
           <div className="flex flex-col justify-center items-center mb-4 border border-red-600 pt-4">

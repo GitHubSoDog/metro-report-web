@@ -1,7 +1,7 @@
 import Button from '@/components/common/Button';
 import useTable from '@/hook/useTable.hook';
 import { LotType } from '@/type/lots.type';
-import { Fragment } from 'react';
+import { ChangeEvent, Fragment, RefObject } from 'react';
 import { CiEdit } from 'react-icons/ci';
 import { MdDelete } from 'react-icons/md';
 import Pagination from '../pagination/Pagination';
@@ -16,32 +16,38 @@ type LotsTablePropsType = {
   data: LotType[];
   onToggleOpenModal: (data: LotType, isNewLot: boolean) => void;
   removeCheck: (lotId: string) => void;
+  page: number;
+  sizePage: number;
+  handlePerPage: (event: ChangeEvent<HTMLSelectElement>) => void;
+  handlePage: (count: number) => void;
+  firstPage: () => void;
+  finalPage: () => void;
+
+  scrollRef: RefObject<HTMLDivElement>;
+  handleMouseMove: (e: React.MouseEvent<HTMLDivElement>) => void;
+  handleMouseUp: () => void;
+  handleMouseLeave: () => void;
+  handleMouseDown: (e: React.MouseEvent<HTMLDivElement>) => void;
+  total: number;
 };
 
 const LotsTable = ({
   data,
   onToggleOpenModal,
   removeCheck,
+  page,
+  sizePage,
+  handlePerPage,
+  handlePage,
+  firstPage,
+  finalPage,
+  scrollRef,
+  handleMouseMove,
+  handleMouseUp,
+  handleMouseLeave,
+  handleMouseDown,
+  total,
 }: LotsTablePropsType) => {
-  const {
-    scrollRef,
-    handleMouseMove,
-    handleMouseUp,
-    handleMouseLeave,
-    handleMouseDown,
-  } = useScrollbar();
-  const {
-    fieldNameSort,
-    handleSorting,
-    page,
-    sizePage,
-    dataTableList: dataLots,
-    handlePerPage,
-    handlePage,
-    firstPage,
-    finalPage,
-  } = useTable(data, 10);
-
   return (
     <Fragment>
       <div
@@ -166,7 +172,7 @@ const LotsTable = ({
             </tr>
           </thead>
           <tbody>
-            {dataLots.map((row, index) => (
+            {data.map((row, index) => (
               <tr key={index}>
                 <td>{row.lotName}</td>
                 <td>{row.skinType}</td>
@@ -236,7 +242,7 @@ const LotsTable = ({
         firstPage={firstPage}
         handlePage={handlePage}
         finalPage={finalPage}
-        totalData={data.length}
+        totalData={total}
         setupPerPage={[10]}
       />
     </Fragment>

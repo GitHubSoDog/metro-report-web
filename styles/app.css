@@ -18,23 +18,14 @@ td {
   text-align: center;
 }
 
-.rotated {
-  writing-mode: tb-rl;
-  transform: rotate(-180deg);
-}
-
 .table-custom {
   width: 100%;
 }
 .table-custom thead th {
   @apply border-solid border border-[var(--bg-primary)];
   font-size: 1rem;
-  /* font-weight: bold; */
   text-align: center;
   padding: 0px 8px;
-  /* color: var(--bg-primary); */
-  /* background-color: var(--table-header-color); */
-  /* border: 2px solid var(--table-border-color); */
 }
 .table-custom tbody {
   border-radius: 6px;
@@ -85,10 +76,7 @@ td {
   border-radius: 5px;
   text-align: center;
   position: fixed;
-
   left: 12%;
-  /* right: 0; */
-  /* top: 100%; */
   transform: translate(-50%, -50%);
   z-index: 11;
   width: 80%;
@@ -105,6 +93,8 @@ td {
 }
 .modal-body {
   padding: 20px;
+  overflow-y: auto;
+  height: calc(100%-1rem);
 }
 
 .modal-header,
@@ -143,12 +133,8 @@ td {
 .table-report thead th {
   @apply border-solid border border-[var(--bg-primary)];
   font-size: 1rem;
-  /* font-weight: bold; */
   text-align: center;
   padding: 14px 10px;
-  /* color: var(--bg-primary); */
-  /* background-color: var(--table-header-color); */
-  /* border: 2px solid var(--table-border-color); */
 }
 .table-report tbody {
   border-radius: 6px;
@@ -159,7 +145,6 @@ td {
 }
 .table-report tbody tr {
   text-align: center;
-  /* border-bottom: 2px solid var(--table-border-color); */
 }
 .table-report tbody tr td {
   @apply border-solid border border-[var(--bg-primary)];
@@ -170,4 +155,83 @@ td {
 }
 .table-report tbody tr:hover td {
   background: #edebeb;
+}
+.table-print {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 8px;
+}
+
+.table-print th,
+.table-print td {
+  padding: 0px 4px;
+  border: 1px solid black;
+}
+
+.rotated {
+  writing-mode: tb-rl;
+  transform: rotate(-180deg);
+}
+
+.table-print th {
+  background-color: #ffffff;
+}
+/* Print-specific styles */
+@media print {
+  .table-print {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 8px;
+  }
+
+  .table-print th,
+  .table-print td {
+    padding: 0px 4px;
+    border: 1px solid black;
+  }
+
+  .rotated {
+    writing-mode: tb-rl;
+    transform: rotate(-180deg);
+  }
+
+  .table-print th {
+    background-color: #ffffff;
+  }
+
+  /* Hide unnecessary elements in print */
+  .page-break {
+    display: block;
+    height: 0;
+    page-break-before: always; /* Forces a page break before this element */
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}
+
+.underline-text {
+  position: relative;
+  display: inline-block;
+  font-size: 8px;
+  text-decoration: none; /* Remove the default underline */
+}
+
+.underline-text::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background-image: linear-gradient(
+    to right,
+    black 50%,
+    rgba(255, 255, 255, 0) 0%
+  );
+  background-size: 4px 1px;
+  background-repeat: repeat-x;
+  transform: scaleX(2); /* Adjust the scale to make it wider */
+  transform-origin: center;
 }
