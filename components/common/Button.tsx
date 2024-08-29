@@ -5,17 +5,17 @@ type ButtonPropsType = PropsWithChildren<{
   id: string;
   onClick: MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
-  type: 'button' | 'submit' | 'reset' | undefined;
+  type?: 'button' | 'submit' | 'reset';
   theme?: ThemeBtnType;
   name: string;
   className?: string;
 }>;
 const Button = ({
   children,
-  id,
+  id = '',
   onClick,
   disabled = false,
-  type,
+  type = 'button',
   name,
   theme = 'primary',
   className = '',

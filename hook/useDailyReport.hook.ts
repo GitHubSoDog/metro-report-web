@@ -70,6 +70,40 @@ const useDailyReport = () => {
     return () => {
       source.cancel('Operation canceled by the user.');
       setLoading(false);
+      setIsOpenModal(false);
+      setNewLot({ ...LOT_DEFAULT });
+      setReport({
+        reportId: reportId as string,
+        su: '',
+        dateReport: new Date(),
+        machine: 'metroiot02',
+        duty: '',
+        lineLeader: '',
+        start: new Date(),
+        end: new Date(),
+        lots: {},
+        department: DEPARTMENT_ENUM.PRODUCTION,
+        employeeIroning: {
+          employeeName: '',
+          approveDate: new Date(),
+        },
+        varify: {
+          employeeName: '',
+          approveDate: new Date(),
+        },
+        employeeStretch: {
+          employeeName: '',
+          approveDate: new Date(),
+        },
+        approve: {
+          employeeName: '',
+          approveDate: new Date(),
+        },
+        createBy: 'User_Metro',
+        updateBy: 'User_Metro',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
     };
   }, [router]);
 
@@ -157,7 +191,6 @@ const useDailyReport = () => {
       try {
         setLoading(true);
         const data = transformDatesToString<object>(report);
-        console.log('data ->> ', data);
         await ssrInstance.post<ReportType>(`/daliy-report/${reportId}`, {
           ...data,
         });
@@ -323,6 +356,8 @@ const useDailyReport = () => {
     handleMouseUp,
     handleMouseLeave,
     handleMouseDown,
+    reportId,
+    lotsListPrint: lotsList,
   };
 };
 

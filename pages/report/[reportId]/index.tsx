@@ -1,9 +1,11 @@
 import Button from '@/components/common/Button';
 import DatePickerInput from '@/components/common/DatePickerInput';
 import DropDown from '@/components/common/DropDown';
+import Loading from '@/components/common/Loading';
 import TextInput from '@/components/common/TextInput';
 import LotCrmModal from '@/components/feature/add-lot/LotCrmModal';
 import LotsTable from '@/components/feature/lots-table/LotsTable';
+import DailyReportPrint from '@/components/feature/print-form/DailyReportPrint';
 import { LOT_DEFAULT } from '@/constants/lot';
 import {
   APPROVE_LIST,
@@ -13,10 +15,13 @@ import {
 } from '@/constants/master-data';
 import withSession from '@/hoc/withSession';
 import useDailyReport from '@/hook/useDailyReport.hook';
+import usePrintExport from '@/hook/usePrintExport.hook';
+import { showLocalDateTimeFormatWeb } from '@/utilities/normal-fn';
 import { Fragment } from 'react';
 import { FiDownloadCloud } from 'react-icons/fi';
 import { IoBackspaceOutline, IoSaveOutline } from 'react-icons/io5';
 import { MdAdd, MdDownload, MdReportGmailerrorred } from 'react-icons/md';
+import { TfiPrinter } from 'react-icons/tfi';
 
 const Report = () => {
   const {
@@ -47,12 +52,18 @@ const Report = () => {
     handleMouseLeave,
     handleMouseDown,
     total,
+    lotsListPrint,
   } = useDailyReport();
+  const { printRef, onClickPrint, totalPagePrint, isPrintLoading } =
+    usePrintExport({
+      nameReport: showLocalDateTimeFormatWeb(new Date()),
+    });
 
-  if (isLoading) return <>Loading</>;
+  if (isLoading) return <Loading />;
 
   return (
     <Fragment>
+      {isPrintLoading ? <Loading /> : null}
       <div className="shadow-panel text-center relative">
         <Button
           id={'submit_report'}
@@ -67,19 +78,26 @@ const Report = () => {
             บันทึก
           </div>
         </Button>
-        <Button
-          id={'export'}
-          onClick={() => {}}
-          type={'button'}
-          name={'export'}
-          className="absolute top-8 right-[9rem]"
-          theme="light"
-        >
-          <div className="flex justify-center items-center">
-            <MdDownload className="text-[18px] mr-2" />
-            Export PDF
-          </div>
-        </Button>
+        {lotsListPrint?.length > 0 ? (
+          <Button
+            id={'export'}
+            onClick={() => onClickPrint(report)}
+            type={'button'}
+            name={'export'}
+            className="absolute top-8 right-[9rem]"
+            theme="light"
+          >
+            <div className="flex justify-center items-center">
+              <TfiPrinter className="text-[18px] mr-2" />
+              Print PDF
+            </div>
+          </Button>
+        ) : (
+          <span className="absolute top-8 left-0 badge-extra py-3">
+            Not Ready
+          </span>
+        )}
+
         <div className="flex justify-center items-center min-w-[600px]">
           <p className="pr-6">รายงานการผลิตประจำวัน</p>
           <div className="w-[300px]">
@@ -106,6 +124,7 @@ const Report = () => {
             onChange={onChangeReport}
             id={'su'}
             name={'su'}
+            maxLength={11}
           />
         </div>
 
@@ -146,6 +165,7 @@ const Report = () => {
               onChange={onChangeReport}
               id={'duty'}
               name={'duty'}
+              maxLength={10}
             />
           </div>
           <div className="flex justify-center items-center">
@@ -155,6 +175,7 @@ const Report = () => {
               onChange={onChangeReport}
               id={'lineLeader'}
               name={'lineLeader'}
+              maxLength={20}
             />
           </div>
           <div className="flex justify-center items-center">
@@ -388,6 +409,12 @@ const Report = () => {
         isOpenModal={isOpenModal}
         onCloseModal={onCloseModal}
         onSubmitAddLot={onSubmitAddLot}
+      />
+      <DailyReportPrint
+        report={report}
+        lots={lotsListPrint}
+        pageTotal={totalPagePrint}
+        ref={printRef}
       />
     </Fragment>
   );

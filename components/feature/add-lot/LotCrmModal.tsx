@@ -65,6 +65,7 @@ const LotCrmModal = ({
             onChange={onChangeNewLot}
             id={'customerName'}
             name={'customerName'}
+            maxLength={20}
           />
           <div className="col-span-2" />
           <div>เวลาผลิต</div>

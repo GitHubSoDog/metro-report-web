@@ -1,5 +1,4 @@
 import Button from '@/components/common/Button';
-import useTable from '@/hook/useTable.hook';
 import { ReportType } from '@/type/report.type';
 import {
   isToday,
@@ -8,10 +7,9 @@ import {
 } from '@/utilities/normal-fn';
 import { ChangeEvent, Fragment } from 'react';
 import { CiEdit } from 'react-icons/ci';
-import { IoIosPrint } from 'react-icons/io';
-import ArrowTableSort from '../pagination/ArrowTableSort';
+import { MdDelete, MdDownload, MdPrint } from 'react-icons/md';
 import Pagination from '../pagination/Pagination';
-import { MdDelete, MdDownload } from 'react-icons/md';
+import { TfiPrinter } from 'react-icons/tfi';
 
 type TablePropsType = {
   reportList: ReportType[];
@@ -26,6 +24,7 @@ type TablePropsType = {
   finalPage: () => void;
   handleSorting: (fieldName: keyof ReportType) => void;
   removeCheck: (reportId: string) => void;
+  onClickPrint: (report: ReportType) => void;
 };
 const ReportTable = ({
   reportList = [],
@@ -40,6 +39,7 @@ const ReportTable = ({
   firstPage,
   finalPage,
   removeCheck,
+  onClickPrint,
 }: TablePropsType) => {
   return (
     <Fragment>
@@ -59,19 +59,26 @@ const ReportTable = ({
                 className={isToday(row.createdAt) ? 'bg-red-100' : 'bg-white'}
               >
                 <td>{showLocalDateFormatWeb(row.dateReport)}</td>
-                <td>{showLocalDateTimeFormatWeb(row.createdAt)}</td>
+                <td>
+                  {showLocalDateTimeFormatWeb(row.createdAt)}
+                  {Object.values(row?.lots || {}).length > 0 ? null : (
+                    <span className="badge-extra">Not Ready</span>
+                  )}
+                </td>
                 <td>
                   <div className="flex w-full justify-center">
-                    <Button
-                      id={'Print'}
-                      onClick={() => {}}
-                      type={'button'}
-                      name={'Print'}
-                      theme="light"
-                      className="mr-2"
-                    >
-                      <MdDownload className="text-[20px]" />
-                    </Button>
+                    {Object.values(row?.lots || {}).length > 0 ? (
+                      <Button
+                        id={'Print'}
+                        onClick={() => onClickPrint(row)}
+                        type={'button'}
+                        name={'Print'}
+                        theme="light"
+                        className="mr-2"
+                      >
+                        <TfiPrinter className="text-[20px]" />
+                      </Button>
+                    ) : null}
                     <Button
                       id={'Edit'}
                       onClick={() => routeEdit(row.reportId)}

@@ -1,32 +1,57 @@
+import { LotType } from '@/type/lots.type';
+import { ReportType } from '@/type/report.type';
+import { useRef, useState } from 'react';
 import { useReactToPrint } from 'react-to-print';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
-import { useRef } from 'react';
 
 type UsePrintExportPropsType = {
   nameReport: string;
 };
 const usePrintExport = ({ nameReport = 'report' }: UsePrintExportPropsType) => {
+  const [reportPrint, setReportPrint] = useState<ReportType>();
+  const [lotsPrint, setLotsPrint] = useState<LotType[]>([]);
+  const [totalPagePrint, setTotalPagePrint] = useState<number[]>([]);
+  const [isPrintLoading, setIsPrintLoading] = useState<boolean>(false);
   const printRef = useRef<HTMLDivElement>(null);
+  let timer: ReturnType<typeof setTimeout>;
 
   const handlePrint = useReactToPrint({
     content: () => printRef.current,
+    removeAfterPrint: true,
+    onAfterPrint: () => clearStatePrint(),
   });
 
-  const handleExportPDF = async () => {
-    if (printRef.current) {
-      const canvas = await html2canvas(printRef.current);
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('landscape', 'mm', 'a4');
-      pdf.addImage(imgData, 'PNG', 0, 0, 297, 210);
-      pdf.save(nameReport.concat('.pdf'));
-    }
+  const onClickPrint = (report: ReportType) => {
+    setIsPrintLoading(true);
+    setReportPrint(report);
+    setLotsPrint(Object.values(report.lots || {}));
+    setTotalPagePrint(
+      Array.from(
+        {
+          length: Math.ceil(Object.values(report.lots || {}).length / 19),
+        },
+        (_, i) => i + 1
+      )
+    );
+    timer = setTimeout(() => {
+      handlePrint();
+    }, 2000);
+  };
+
+  const clearStatePrint = () => {
+    clearTimeout(timer);
+    setReportPrint(undefined);
+    setTotalPagePrint([]);
+    setLotsPrint([]);
+    setIsPrintLoading(false);
   };
 
   return {
     printRef,
-    handlePrint,
-    handleExportPDF,
+    reportPrint,
+    onClickPrint,
+    lotsPrint,
+    totalPagePrint,
+    isPrintLoading,
   };
 };
 

@@ -10,10 +10,8 @@ export const genarateIdNormal = (): string => {
 };
 
 export const showLocalTime = (date: Date): string => {
-  // Convert the date to the specified timezone
   const zonedDate = toZonedTime(date, timeZone);
 
-  // Format the date to 'HH:mm' in the specified timezone
   return formatTz(zonedDate, 'HH:mm', { timeZone });
 };
 
@@ -52,4 +50,28 @@ export const formatNumber = (text: string): string => {
     return new Intl.NumberFormat('en-US').format(parseFloat(text));
   }
   return '';
+};
+
+export const showDateText = (date: Date) => {
+  const options: Intl.DateTimeFormatOptions = {
+    day: 'numeric',
+  };
+
+  return date.toLocaleDateString('th-TH', options);
+};
+
+export const showMonthText = (date: Date) => {
+  const options: Intl.DateTimeFormatOptions = {
+    month: 'long',
+  };
+
+  return date.toLocaleDateString('th-TH', options);
+};
+
+export const showYearText = (date: Date) => {
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+  };
+
+  return date.toLocaleDateString('th-TH', options).replace('พ.ศ. ', '');
 };

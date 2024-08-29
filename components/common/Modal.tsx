@@ -20,9 +20,9 @@ const Modal = ({
   children,
 }: ModalPropsType) => {
   return (
-    <div className={`modale ${isOpen ? 'opened' : null}`}>
-      <div className="modal-dialog">
-        <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t ">
+    <div className="modal-middle">
+      <div className="modal-content-middle">
+        <div className="flex items-center justify-between pb-4 px-4 border-b rounded-t ">
           <h3 className="text-xl font-semibold text-gray-900 ">{title}</h3>
           <button
             type="button"
@@ -55,16 +55,17 @@ const Modal = ({
             onClick={onClose}
             type={'button'}
             name={'textClose'}
-            className="mr-2"
+            theme="light"
+            className="w-[180px] mr-2"
           >
             {textClose}
           </Button>
           <Button
-            theme="light"
             onClick={onSubmit}
             type={'button'}
             name={'textSuccess'}
             id={'textSuccess'}
+            className="w-[180px]"
           >
             {textOk}
           </Button>

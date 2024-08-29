@@ -28,8 +28,8 @@ type TextInputPropsType<T, K = string> = {
 const TextInput = <T extends string, K extends string>({
   textLabel = '',
   onChange,
-  id,
-  name,
+  id = '',
+  name = '',
   placeholder = 'กรอกข้อมูล',
   maxLength = 50,
   character = [],

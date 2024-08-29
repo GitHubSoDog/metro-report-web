@@ -7,10 +7,11 @@ import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import useTable from './useTable.hook';
 import { genarateIdNormal } from '@/utilities/normal-fn';
+import { reportApiDataTransformToReport } from '@/dto/report.dto';
 
 const useReport = () => {
   const router = useRouter();
-  const [isLoading, setLoading] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState<boolean>(true);
   const [report, setReport] = useState<ReportType[]>([]);
   const [total, setTotal] = useState<number>(0);
 
@@ -21,7 +22,7 @@ const useReport = () => {
 
     return () => {
       source.cancel('Operation canceled by the user.');
-      setLoading(false);
+      setLoading(true);
       setTotal(0);
       setReport([]);
     };
@@ -30,6 +31,7 @@ const useReport = () => {
   const fetchReport = async (source: CancelTokenSource) => {
     try {
       setLoading(true);
+
       const response = await ssrInstance.get<PaginationListType<ReportType>>(
         '/list-report?page=1&limit=5',
         {
@@ -37,11 +39,14 @@ const useReport = () => {
         }
       );
       setTotal(response.data.totalRecords);
-      setReport(response.data.data);
+      setReport(
+        response.data.data.map((_report) =>
+          reportApiDataTransformToReport(_report)
+        )
+      );
     } catch (err) {
       if (!axios.isCancel(err)) {
         setReport([]);
-
         Swal.fire({
           title: 'เกิดข้อผิดพลาด',
           text: 'กรุณาติดต่อผู้พัฒนา',

@@ -16,7 +16,7 @@ type DatePickerPropsType<T, K = string> = {
 const DatePickerInput = <T extends Date, K extends string>({
   textLabel = '',
   onChange,
-  id,
+  id = '',
   name,
   disabled = false,
   value = new Date(),

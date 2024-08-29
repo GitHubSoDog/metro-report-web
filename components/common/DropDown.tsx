@@ -15,7 +15,7 @@ type DropDownPropsType<T, K = string> = {
 const DropDown = <T extends string, K extends string>({
   textLabel,
   onChange,
-  id,
+  id = '',
   name,
   placeholder = 'เลือกข้อมูล',
   disabled = false,
