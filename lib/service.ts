@@ -8,6 +8,12 @@ export class ReportService {
     this.reportRepository = new ReportRepository(); // Create an instance of ClassB
   }
 
+  getMigrate(page: string = '1', limit: string = '10') {
+    const pageNumber = parseInt(page as string, 10);
+    const limitNumber = parseInt(limit as string, 10);
+    return this.reportRepository.getAll(pageNumber, limitNumber);
+  }
+
   getListReport(page: string = '1', limit: string = '10') {
     const pageNumber = parseInt(page as string, 10);
     const limitNumber = parseInt(limit as string, 10);

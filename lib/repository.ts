@@ -6,6 +6,36 @@ import path from 'path';
 const CACHE_FILE_PATH = path.join(process.cwd(), 'data', 'cache.json');
 
 export class ReportRepository {
+  getAll(pageNumber: number, limitNumber: number): Object | null {
+    const report: Record<string, ReportType> | null = this.readCache();
+    if (!report) {
+      return null;
+    }
+
+    const keys = Object.keys(report);
+
+    const startIndex = (pageNumber - 1) * limitNumber;
+    const endIndex = startIndex + limitNumber;
+    const paginatedKeys = keys.slice(startIndex, endIndex);
+
+    // Create a Record<string, ReportType> from the paginated keys
+    const paginatedData: Record<string, ReportType> = paginatedKeys.reduce(
+      (acc, key) => {
+        acc[key] = report[key];
+        return acc;
+      },
+      {} as Record<string, ReportType>
+    );
+
+    return {
+      page: pageNumber,
+      limit: limitNumber,
+      totalRecords: keys.length,
+      totalPages: Math.ceil(keys.length / limitNumber),
+      data: paginatedData,
+    };
+  }
+
   getList(
     pageNumber: number,
     limitNumber: number
