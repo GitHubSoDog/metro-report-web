@@ -1,4 +1,5 @@
 import Layout from '@/components/layout/Layout';
+import { ProtectedPageType } from '@/type/event';
 import React from 'react';
 
 // type HocWithSessionType = {
@@ -7,7 +8,7 @@ import React from 'react';
 //   router?: NextRouter;
 // };
 
-const withSession = <P extends object>(
+const withSession = <P extends ProtectedPageType>(
   WrappedComponent: React.ComponentType<P>,
   title: string,
   menu: string

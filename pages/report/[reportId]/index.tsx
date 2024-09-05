@@ -16,6 +16,7 @@ import {
 import withSession from '@/hoc/withSession';
 import useDailyReport from '@/hook/useDailyReport.hook';
 import usePrintExport from '@/hook/usePrintExport.hook';
+import { ProtectedPageType } from '@/type/event';
 import { showLocalDateTimeFormatWeb } from '@/utilities/normal-fn';
 import { Fragment } from 'react';
 import { FiDownloadCloud } from 'react-icons/fi';
@@ -23,7 +24,14 @@ import { IoBackspaceOutline, IoSaveOutline } from 'react-icons/io5';
 import { MdAdd, MdDownload, MdReportGmailerrorred } from 'react-icons/md';
 import { TfiPrinter } from 'react-icons/tfi';
 
-const Report = () => {
+const Report = ({
+  skinTypeMapping,
+  employeeIroningMapping,
+  varifyListMapping,
+  employeeStretchMapping,
+  approveListMapping,
+  billetTypeMapping,
+}: ProtectedPageType) => {
   const {
     newLot,
     onChangeNewLot,
@@ -250,6 +258,8 @@ const Report = () => {
             handleMouseLeave={handleMouseLeave}
             handleMouseDown={handleMouseDown}
             total={total}
+            skinTypeMapping={skinTypeMapping}
+            billetTypeMapping={billetTypeMapping}
           />
         ) : (
           <div className="flex flex-col justify-center items-center mb-4 border border-red-600 pt-4">
@@ -403,6 +413,7 @@ const Report = () => {
           </Button>
         </div>
       </div>
+
       <LotCrmModal
         newLot={newLot}
         onChangeNewLot={onChangeNewLot}
@@ -411,6 +422,14 @@ const Report = () => {
         onSubmitAddLot={onSubmitAddLot}
       />
       <DailyReportPrint
+        master={{
+          skinTypeMapping,
+          employeeIroningMapping,
+          varifyListMapping,
+          employeeStretchMapping,
+          approveListMapping,
+          billetTypeMapping,
+        }}
         report={report}
         lots={lotsListPrint}
         pageTotal={totalPagePrint}

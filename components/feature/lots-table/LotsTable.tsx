@@ -1,16 +1,14 @@
 import Button from '@/components/common/Button';
-import useTable from '@/hook/useTable.hook';
 import { LotType } from '@/type/lots.type';
-import { ChangeEvent, Fragment, RefObject } from 'react';
-import { CiEdit } from 'react-icons/ci';
-import { MdDelete } from 'react-icons/md';
-import Pagination from '../pagination/Pagination';
-import useScrollbar from '@/hook/useScrollbar.hook';
 import {
   formatNumber,
   showLocalDate,
   showLocalTime,
 } from '@/utilities/normal-fn';
+import { ChangeEvent, Fragment, RefObject } from 'react';
+import { CiEdit } from 'react-icons/ci';
+import { MdDelete } from 'react-icons/md';
+import Pagination from '../pagination/Pagination';
 
 type LotsTablePropsType = {
   data: LotType[];
@@ -29,6 +27,8 @@ type LotsTablePropsType = {
   handleMouseLeave: () => void;
   handleMouseDown: (e: React.MouseEvent<HTMLDivElement>) => void;
   total: number;
+  skinTypeMapping: Record<string, string>;
+  billetTypeMapping: Record<string, string>;
 };
 
 const LotsTable = ({
@@ -47,6 +47,8 @@ const LotsTable = ({
   handleMouseLeave,
   handleMouseDown,
   total,
+  skinTypeMapping,
+  billetTypeMapping,
 }: LotsTablePropsType) => {
   return (
     <Fragment>
@@ -89,7 +91,9 @@ const LotsTable = ({
               </th>
               <th colSpan={6}>บิลเลท</th>
               <th colSpan={2}>ตัดหน้าเครื่อง</th>
-              <th>ความยาวที่</th>
+              <th rowSpan={3} className="min-w-[80px]">
+                ความยาวที่ลูกค้า ต้องการ (ม.)
+              </th>
               <th colSpan={3} rowSpan={2} className="min-w-[160px]">
                 จำนวนเส้นที่ตัดได้
               </th>
@@ -108,7 +112,7 @@ const LotsTable = ({
                 Action
               </th>
             </tr>
-            <tr className="bg-[#9ea2b0] text-black">
+            <tr className="bg-[#d0daf8] text-black">
               <th rowSpan={2}>เริ่ม</th>
               <th rowSpan={2}>เสร็จ</th>
               <th rowSpan={2}>เบอร์</th>
@@ -118,20 +122,18 @@ const LotsTable = ({
                 คอนเทนเนอร์
               </th>
               <th rowSpan={2} className="min-w-[70px]">
-                BO NO
+                BO.NO
               </th>
               <th rowSpan={2} className="min-w-[70px]">
-                INS NO
+                INS.NO
               </th>
               <th rowSpan={2} className="min-w-[100px]">
                 น.น บิลเลท
                 <br />
                 (ก.ก)/แพ็ค
               </th>
-              <th rowSpan={2} className="min-w-[60px]">
-                ว.ด.ป ที่ <br />
-                บิลเลท <br />
-                เข้าโรงรีด
+              <th rowSpan={2} className="min-w-[100px]">
+                ว.ด.ป ที่ บิลเลท เข้าโรงรีด
               </th>
               <th rowSpan={2} className="min-w-[130px]">
                 หมายเลข บิลเลท
@@ -147,14 +149,7 @@ const LotsTable = ({
                 ครั้ง / ลูก
               </th>
               <th rowSpan={2} className="min-w-[120px]">
-                ความยาวบนร้าน (น.)
-              </th>
-              <th rowSpan={2}>
-                ลูกค้า
-                <br />
-                ต้องการ
-                <br />
-                (ม.)
+                ความยาวบนร้าน (ม.)
               </th>
             </tr>
             <tr className="bg-[#e4e6f0] text-black">
@@ -162,8 +157,12 @@ const LotsTable = ({
               <th>ผิว</th>
               <th className="min-w-[60px]">หน้าจอ</th>
               <th>กึ่งกลาง</th>
-              <th rowSpan={1}>ดี</th>
-              <th rowSpan={1}>เสีย</th>
+              <th rowSpan={1} className="min-w-[40px]">
+                ดี
+              </th>
+              <th rowSpan={1} className="min-w-[50px]">
+                เสีย
+              </th>
               <th rowSpan={1}>
                 ***
                 <br />
@@ -175,11 +174,11 @@ const LotsTable = ({
             {data.map((row, index) => (
               <tr key={index}>
                 <td>{row.lotName}</td>
-                <td>{row.skinType}</td>
-                <td>{row.billetType}</td>
+                <td>{skinTypeMapping?.[row.skinType] || ''}</td>
+                <td>{billetTypeMapping?.[row.billetType] || ''}</td>
                 <td>{row.customerName}</td>
-                <td>{showLocalTime(row.start)}</td>
-                <td>{showLocalTime(row.end)}</td>
+                <td>{showLocalTime(row?.start)}</td>
+                <td>{showLocalTime(row?.end)}</td>
                 <td>{row.dyNumber}</td>
                 <td>{row.dyScreen}</td>
                 <td>{row.dySkin}</td>

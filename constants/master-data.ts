@@ -104,52 +104,52 @@ export const BILLET_TYPE: OptionPropsType[] = [
 
 export const EMPLOYEE_IRONING: OptionPropsType[] = [
   {
-    value: 'ปราการ',
+    value: '0001',
     lable: 'ปราการ',
   },
   {
-    value: 'ธรรมนูญ',
+    value: '0002',
     lable: 'ธรรมนูญ',
   },
 ];
 
 export const VARIFY_LIST: OptionPropsType[] = [
   {
-    value: 'ประเวช',
+    value: '0001',
     lable: 'ประเวช',
   },
   {
-    value: 'สมควร',
+    value: '0002',
     lable: 'สมควร',
   },
 ];
 
 export const EMPLOYEE_STRETCH: OptionPropsType[] = [
   {
-    value: 'วิชัย',
+    value: '0001',
     lable: 'วิชัย',
   },
   {
-    value: 'ศุกิจ',
+    value: '0002',
     lable: 'ศุกิจ',
   },
   {
-    value: 'พิชัย',
+    value: '0003',
     lable: 'พิชัย',
   },
 ];
 
 export const APPROVE_LIST: OptionPropsType[] = [
   {
-    value: 'ธีระพงศ์',
+    value: '0001',
     lable: 'ธีระพงศ์',
   },
   {
-    value: 'จิรโชติ',
+    value: '0002',
     lable: 'จิรโชติ',
   },
   {
-    value: 'ประสิทธิ์',
+    value: '0003',
     lable: 'ประสิทธิ์',
   },
 ];

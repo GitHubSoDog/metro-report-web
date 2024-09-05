@@ -30,7 +30,7 @@ const LotCrmModal = ({
         onSubmit={onSubmitAddLot}
       >
         <div className="grid gap-6 grid-cols-6">
-          <div>
+          <div className="w-full break-words">
             <h2 className="text-xl font-extrabold">{newLot.lotName}</h2>
           </div>
           <TextInput<string, keyof LotType>
@@ -93,8 +93,7 @@ const LotCrmModal = ({
             onChange={onChangeNewLot}
             id={'dyNumber'}
             name={'dyNumber'}
-            character={['number']}
-            maxLength={8}
+            maxLength={15}
           />
           <div className="col-span-2" />
           <div>อุณหภูมิ</div>
@@ -105,7 +104,6 @@ const LotCrmModal = ({
             id={'dyScreen'}
             name={'dyScreen'}
             character={['number', 'dot']}
-            isShowIcon
             maxLength={5}
           />
           <TextInput
@@ -114,7 +112,6 @@ const LotCrmModal = ({
             onChange={onChangeNewLot}
             id={'dySkin'}
             name={'dySkin'}
-            isShowIcon
             character={['number', 'dot']}
             maxLength={5}
           />
@@ -126,7 +123,6 @@ const LotCrmModal = ({
             name={'billetScreen'}
             character={['number', 'dot']}
             maxLength={5}
-            isShowIcon
           />
           <TextInput
             value={newLot.billetMiddle}
@@ -134,7 +130,6 @@ const LotCrmModal = ({
             onChange={onChangeNewLot}
             id={'billetMiddle'}
             name={'billetMiddle'}
-            isShowIcon
             character={['number', 'dot']}
             maxLength={5}
           />
@@ -144,27 +139,23 @@ const LotCrmModal = ({
             onChange={onChangeNewLot}
             id={'container'}
             name={'container'}
-            character={['number', 'dot']}
             maxLength={5}
-            isShowIcon
           />
           <div>ชุดประกอบร่วม</div>
           <TextInput
             value={newLot.boNo}
-            textLabel={'BO NO.'}
+            textLabel={'BO.NO'}
             onChange={onChangeNewLot}
             id={'boNo'}
             name={'boNo'}
-            character={['number', 'dot']}
             maxLength={4}
           />
           <TextInput
             value={newLot.insNo}
-            textLabel={'INS NO.'}
+            textLabel={'INS.NO'}
             onChange={onChangeNewLot}
             id={'insNo'}
             name={'insNo'}
-            character={['number', 'dot']}
             maxLength={4}
           />
           <TextInput
@@ -173,7 +164,6 @@ const LotCrmModal = ({
             onChange={onChangeNewLot}
             id={'holeCount'}
             name={'holeCount'}
-            character={['number', 'dot']}
             maxLength={4}
           />
           <TextInput
@@ -182,7 +172,6 @@ const LotCrmModal = ({
             onChange={onChangeNewLot}
             id={'averageWeight'}
             name={'averageWeight'}
-            character={['number', 'dot']}
             maxLength={5}
           />
           <div />
@@ -193,7 +182,6 @@ const LotCrmModal = ({
             onChange={onChangeNewLot}
             id={'billetWeight'}
             name={'billetWeight'}
-            character={['number', 'dot']}
             maxLength={5}
           />
           <DatePickerInput
@@ -209,7 +197,6 @@ const LotCrmModal = ({
             onChange={onChangeNewLot}
             id={'billetNumber'}
             name={'billetNumber'}
-            character={['number', 'eng', 'dot']}
             maxLength={9}
           />
           <TextInput
@@ -218,7 +205,6 @@ const LotCrmModal = ({
             onChange={onChangeNewLot}
             id={'ironingSize'}
             name={'ironingSize'}
-            character={['number', 'dot']}
             maxLength={4}
           />
           <div className="col-span-1" />
@@ -237,7 +223,6 @@ const LotCrmModal = ({
             onChange={onChangeNewLot}
             id={'billetCount'}
             name={'billetCount'}
-            character={['number', 'dot']}
             maxLength={4}
           />
           <div className="col-span-3" />
@@ -248,7 +233,6 @@ const LotCrmModal = ({
             onChange={onChangeNewLot}
             id={'times'}
             name={'times'}
-            character={['number']}
             maxLength={4}
           />
           <TextInput
@@ -257,7 +241,6 @@ const LotCrmModal = ({
             onChange={onChangeNewLot}
             id={'longShop'}
             name={'longShop'}
-            character={['number', 'dot']}
             maxLength={6}
           />
           <TextInput
@@ -266,7 +249,6 @@ const LotCrmModal = ({
             onChange={onChangeNewLot}
             id={'longExpect'}
             name={'longExpect'}
-            character={['number', 'dot']}
             maxLength={6}
           />
           <div className="col-span-2" />
@@ -277,7 +259,6 @@ const LotCrmModal = ({
             onChange={onChangeNewLot}
             id={'good'}
             name={'good'}
-            character={['number', 'dot']}
             maxLength={4}
           />
           <TextInput
@@ -286,7 +267,6 @@ const LotCrmModal = ({
             onChange={onChangeNewLot}
             id={'waste'}
             name={'waste'}
-            character={['number', 'dot']}
             maxLength={4}
           />
           <TextInput
@@ -295,7 +275,6 @@ const LotCrmModal = ({
             onChange={onChangeNewLot}
             id={'wastePercent'}
             name={'wastePercent'}
-            character={['number', 'dot']}
             maxLength={6}
           />
           <TextInput
@@ -304,7 +283,6 @@ const LotCrmModal = ({
             onChange={onChangeNewLot}
             id={'speedPull'}
             name={'speedPull'}
-            character={['number', 'dot']}
             maxLength={6}
           />
 

@@ -1,3 +1,4 @@
+import { ProtectedPageType } from '@/type/event';
 import { LotType } from '@/type/lots.type';
 import { ReportType } from '@/type/report.type';
 import {
@@ -10,19 +11,25 @@ import {
 import { forwardRef } from 'react';
 
 type DailyReportPropsType = {
+  master: ProtectedPageType;
   report: ReportType | undefined;
   lots: LotType[];
   pageTotal: number[];
 };
 
 const DailyReportPrint = forwardRef<HTMLDivElement, DailyReportPropsType>(
-  ({ report, lots, pageTotal }, ref) => {
+  ({ master, report, lots, pageTotal }, ref) => {
     return (
       <div className="hidden">
         <div
           className="text-center text-[8px]"
           ref={ref}
-          style={{ width: '297mm', height: '210mm' }}
+          style={{
+            width: '297mm',
+            height: '210mm',
+            maxWidth: '297mm',
+            maxHeight: '210mm',
+          }}
         >
           {pageTotal.map((page, index) => (
             <div key={index} className="page-break">
@@ -30,42 +37,42 @@ const DailyReportPrint = forwardRef<HTMLDivElement, DailyReportPropsType>(
                 รายงานการผลิตประจำวัน {report?.department || ''}
               </span>
               <br />
-              <span className="font-bold">PRODUCTION DAILY REPORT.</span>
+              <div className="font-bold pt-1">PRODUCTION DAILY REPORT.</div>
               <br />
-              <div className="text-end">{report?.su || ''}</div>
-              <div className="flex justify-center items-center w-full mb-2">
+              <div className="text-end pb-1 pr-8">{report?.su || ''}</div>
+              <div className="flex justify-center items-end w-full mb-2">
                 วัน
-                <span className="underline-text mx-4">
-                  {showDateText(report?.dateReport || new Date())}
-                </span>
+                <div className="mx-2 border-b border-black w-[80px] max-w-[80px] text-center">
+                  <span>{showDateText(report?.dateReport || new Date())}</span>
+                </div>
                 เดือน
-                <span className="underline-text mx-5">
-                  {showMonthText(report?.dateReport || new Date())}
-                </span>
+                <div className="mx-2 border-b border-black w-[80px] max-w-[80px] text-center">
+                  <span>{showMonthText(report?.dateReport || new Date())}</span>
+                </div>
                 พ.ศ.
-                <span className="underline-text mx-4">
-                  {showYearText(report?.dateReport || new Date())}
-                </span>
+                <div className="mx-2 border-b border-black w-[80px] max-w-[80px] text-center">
+                  <span>{showYearText(report?.dateReport || new Date())}</span>
+                </div>
                 เครื่อง
-                <span className="underline-text mx-4">
-                  {report?.machine || ''}
-                </span>
+                <div className="mx-2 border-b border-black w-[80px] max-w-[80px] text-center">
+                  <span>{report?.machine || ''}</span>
+                </div>
                 กะ
-                <span className="underline-text mx-4">
-                  {report?.duty || ''}
-                </span>
+                <div className="mx-2 border-b border-black w-[80px] max-w-[80px] text-center">
+                  <span>{report?.duty || ''}</span>
+                </div>
                 หัวหน้าไลน์
-                <span className="underline-text mx-4">
-                  {report?.lineLeader || ''}
-                </span>
+                <div className="mx-2 border-b border-black w-[80px] max-w-[80px] text-center">
+                  <span>{report?.lineLeader || ''}</span>
+                </div>
                 เริ่ม
-                <span className="underline-text ml-4 mr-2">
-                  {showLocalTime(report?.start || new Date())}
-                </span>
+                <div className="mx-2 border-b border-black w-[80px] max-w-[80px] text-center">
+                  <span>{showLocalTime(report?.start || new Date())}</span>
+                </div>
                 น. ถึง
-                <span className="underline-text ml-4 mr-2">
-                  {showLocalTime(report?.end || new Date())}
-                </span>
+                <div className="mx-2 border-b border-black w-[80px] max-w-[80px] text-center">
+                  <span> {showLocalTime(report?.end || new Date())}</span>
+                </div>
                 น.
               </div>
               <table className="table-print mb-6">
@@ -75,7 +82,7 @@ const DailyReportPrint = forwardRef<HTMLDivElement, DailyReportPropsType>(
                     <th rowSpan={3} className="max-w-[80px]">
                       ชนิดผิว
                     </th>
-                    <th rowSpan={3} className="max-w-[80px]">
+                    <th rowSpan={3} className="min-w-[40px]">
                       ชนิด
                       <br />
                       บิลเลท
@@ -96,7 +103,9 @@ const DailyReportPrint = forwardRef<HTMLDivElement, DailyReportPropsType>(
                     </th>
                     <th colSpan={6}>บิลเลท</th>
                     <th colSpan={2}>ตัดหน้าเครื่อง</th>
-                    <th>ความยาวที่</th>
+                    <th rowSpan={3} className="min-w-[40px]">
+                      ความยาวที่ลูกค้า ต้องการ (ม.)
+                    </th>
                     <th colSpan={3} rowSpan={2}>
                       จำนวนเส้นที่ตัดได้
                     </th>
@@ -107,7 +116,7 @@ const DailyReportPrint = forwardRef<HTMLDivElement, DailyReportPropsType>(
                       <br />
                       m/min
                     </th>
-                    <th rowSpan={3} className="max-w-[120px]">
+                    <th rowSpan={3} className="max-w-[60px]">
                       หมายเหตุ
                     </th>
                   </tr>
@@ -125,10 +134,10 @@ const DailyReportPrint = forwardRef<HTMLDivElement, DailyReportPropsType>(
                       เนอร์
                     </th>
                     <th rowSpan={2} className="max-w-[70px]">
-                      BO NO
+                      BO.NO
                     </th>
                     <th rowSpan={2} className="max-w-[70px]">
-                      INS NO
+                      INS.NO
                     </th>
                     <th rowSpan={2} className="max-w-[60px]">
                       น.น บิลเลท
@@ -164,14 +173,7 @@ const DailyReportPrint = forwardRef<HTMLDivElement, DailyReportPropsType>(
                       ความ
                       <br />
                       ยาวบน <br />
-                      ร้าน (น.)
-                    </th>
-                    <th rowSpan={2}>
-                      ลูกค้า
-                      <br />
-                      ต้องการ
-                      <br />
-                      (ม.)
+                      ร้าน (ม.)
                     </th>
                   </tr>
                   <tr>
@@ -194,11 +196,13 @@ const DailyReportPrint = forwardRef<HTMLDivElement, DailyReportPropsType>(
                     .map((row, index) => (
                       <tr key={index}>
                         <td>{row?.lotName || ''}</td>
-                        <td>{row.skinType || ''}</td>
-                        <td>{row.billetType || ''}</td>
+                        <td>{master?.skinTypeMapping?.[row.skinType] || ''}</td>
+                        <td>
+                          {master?.billetTypeMapping?.[row.billetType] || ''}
+                        </td>
                         <td>{row.customerName || ''}</td>
-                        <td>{showLocalTime(row?.start || new Date())}</td>
-                        <td>{showLocalTime(row?.end || new Date())}</td>
+                        <td>{showLocalTime(row?.start)}</td>
+                        <td>{showLocalTime(row?.end)}</td>
                         <td>{row.dyNumber || ''}</td>
                         <td>{row.dyScreen || ''}</td>
                         <td>{row.dySkin || ''}</td>
@@ -210,7 +214,7 @@ const DailyReportPrint = forwardRef<HTMLDivElement, DailyReportPropsType>(
                         <td>{row.holeCount || ''}</td>
                         <td>{row.averageWeight || ''}</td>
                         <td>{row.billetWeight || ''}</td>
-                        <td>{showLocalDate(row?.factoryDate || new Date())}</td>
+                        <td>{showLocalDate(row?.factoryDate)}</td>
                         <td>{row.billetNumber || ''}</td>
                         <td>{row.ironingSize || ''}</td>
                         <td>{row.tendon || ''}</td>
@@ -222,96 +226,174 @@ const DailyReportPrint = forwardRef<HTMLDivElement, DailyReportPropsType>(
                         <td>{row.waste || ''}</td>
                         <td>{row.wastePercent || ''}</td>
                         <td>{row.speedPull || ''}</td>
-                        <td className="max-w-[100px] break-words">
+                        <td
+                          className={`${
+                            row.desc.length > 15 ? 'text-[4px]' : ''
+                          } max-w-[60px] break-words`}
+                        >
                           {row.desc || ''}
                         </td>
                       </tr>
                     ))}
                 </tbody>
               </table>
-              <div className="grid grid-cols-2 gap-6">
-                <div className="text-start">
-                  พนักงานรีด{' '}
-                  <span className="underline-text mr-4">
-                    {report?.employeeIroning?.employeeName || ''}
-                  </span>
-                  <span className="underline-text ml-4 mr-1">
-                    {showDateText(
-                      report?.employeeIroning?.approveDate || new Date()
-                    )}
-                  </span>
-                  /
-                  <span className="underline-text mx-1">
-                    {showMonthText(
-                      report?.employeeIroning?.approveDate || new Date()
-                    )}
-                  </span>
-                  /
-                  <span className="underline-text mx-1">
-                    {showYearText(
-                      report?.employeeIroning?.approveDate || new Date()
-                    )}
-                  </span>
+              <div className="grid grid-cols-2 gap-4 mb-2">
+                <div className="flex text-start">
+                  <div className="min-w-[50px]">พนักงานรีด </div>
+                  <div className="flex items-end w-full">
+                    <div className="border-b border-black w-[100px] max-w-[100px] text-center">
+                      <span>
+                        {master?.employeeIroningMapping?.[
+                          report?.employeeIroning?.employeeName || ''
+                        ] || ''}
+                      </span>
+                    </div>
+                    <div className="flex items-end w-full">
+                      <div className="ml-4 mr-1 border-b border-black w-[20px] max-w-[20px] text-center">
+                        <span>
+                          {showDateText(
+                            report?.employeeIroning?.approveDate || new Date()
+                          )}
+                        </span>
+                      </div>
+                      /
+                      <div className="mx-1 border-b border-black w-[80px] max-w-[100px] text-center">
+                        <span>
+                          {showMonthText(
+                            report?.employeeIroning?.approveDate || new Date()
+                          )}
+                        </span>
+                      </div>
+                      /
+                      <div className="ml-1 border-b border-black w-[40px] max-w-[60px] text-center">
+                        <span>
+                          {showYearText(
+                            report?.employeeIroning?.approveDate || new Date()
+                          )}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="text-end">
-                  พนักงานยืด
-                  <span className="underline-text mr-4">
-                    {report?.employeeStretch?.employeeName || ''}
-                  </span>
-                  <span className="underline-text ml-4 mr-1">
-                    {showDateText(
-                      report?.employeeStretch?.approveDate || new Date()
-                    )}
-                  </span>
-                  /
-                  <span className="underline-text mx-1">
-                    {showMonthText(
-                      report?.employeeStretch?.approveDate || new Date()
-                    )}
-                  </span>
-                  /
-                  <span className="underline-text mx-1">
-                    {showYearText(
-                      report?.employeeStretch?.approveDate || new Date()
-                    )}
-                  </span>
+                <div className="flex justify-end text-start">
+                  <div className="min-w-[50px]">พนักงานยืด</div>
+                  <div className="flex items-end">
+                    <div className="border-b border-black w-[100px] max-w-[100px] text-center">
+                      <span>
+                        {master?.employeeStretchMapping?.[
+                          report?.employeeStretch?.employeeName || ''
+                        ] || ''}
+                      </span>
+                    </div>
+                    <div className="flex items-end">
+                      <div className="ml-4 mr-1 border-b border-black w-[20px] max-w-[20px] text-center">
+                        <span>
+                          {showDateText(
+                            report?.employeeStretch?.approveDate || new Date()
+                          )}
+                        </span>
+                      </div>
+                      /
+                      <div className="mx-1 border-b border-black w-[80px] max-w-[100px] text-center">
+                        <span>
+                          {showMonthText(
+                            report?.employeeStretch?.approveDate || new Date()
+                          )}
+                        </span>
+                      </div>
+                      /
+                      <div className="ml-1 border-b border-black w-[40px] max-w-[60px] text-center">
+                        <span>
+                          {showYearText(
+                            report?.employeeStretch?.approveDate || new Date()
+                          )}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="text-start">
-                  ตรวจสอบ
-                  <span className="underline-text mr-4">
-                    {report?.varify?.employeeName || ''}
-                  </span>
-                  <span className="underline-text ml-4 mr-1">
-                    {showDateText(report?.varify?.approveDate || new Date())}
-                  </span>
-                  /
-                  <span className="underline-text mx-1">
-                    {showMonthText(report?.varify?.approveDate || new Date())}
-                  </span>
-                  /
-                  <span className="underline-text mx-1">
-                    {showYearText(report?.varify?.approveDate || new Date())}
-                  </span>
+                <div className="flex text-start">
+                  <div className="min-w-[50px]">ตรวจสอบ</div>
+                  <div className="flex items-end w-full">
+                    <div className="border-b border-black w-[100px] max-w-[100px] text-center">
+                      <span>
+                        {master?.varifyListMapping?.[
+                          report?.varify?.employeeName || ''
+                        ] || ''}
+                      </span>
+                    </div>
+                    <div className="flex items-end w-full">
+                      <div className="ml-4 mr-1 border-b border-black w-[20px] max-w-[20px] text-center">
+                        <span>
+                          {showDateText(
+                            report?.varify?.approveDate || new Date()
+                          )}
+                        </span>
+                      </div>
+                      /
+                      <div className="mx-1 border-b border-black w-[80px] max-w-[100px] text-center">
+                        <span>
+                          {showMonthText(
+                            report?.varify?.approveDate || new Date()
+                          )}
+                        </span>
+                      </div>
+                      /
+                      <div className="ml-1 border-b border-black w-[40px] max-w-[60px] text-center">
+                        <span>
+                          {showYearText(
+                            report?.varify?.approveDate || new Date()
+                          )}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="text-end">
-                  อนุมัติ
-                  <span className="underline-text mr-4">
-                    {report?.approve?.employeeName || ''}
-                  </span>
-                  <span className="underline-text ml-4 mr-1">
-                    {showDateText(report?.approve?.approveDate || new Date())}
-                  </span>
-                  /
-                  <span className="underline-text mx-1">
-                    {showMonthText(report?.approve?.approveDate || new Date())}
-                  </span>
-                  /
-                  <span className="underline-text mx-1">
-                    {showYearText(report?.approve?.approveDate || new Date())}
-                  </span>
+                <div className="flex justify-end text-start">
+                  <div className="min-w-[50px]">อนุมัติ</div>
+                  <div className="flex items-end">
+                    <div className="border-b border-black w-[100px] max-w-[100px] text-center">
+                      <span>
+                        {master?.approveListMapping?.[
+                          report?.approve?.employeeName || ''
+                        ] || ''}
+                      </span>
+                    </div>
+                    <div className="flex items-end">
+                      <div className="ml-4 mr-1 border-b border-black w-[20px] max-w-[20px] text-center">
+                        <span>
+                          {showDateText(
+                            report?.approve?.approveDate || new Date()
+                          )}
+                        </span>
+                      </div>
+                      /
+                      <div className="mx-1 border-b border-black w-[80px] max-w-[100px] text-center">
+                        <span>
+                          {showMonthText(
+                            report?.approve?.approveDate || new Date()
+                          )}
+                        </span>
+                      </div>
+                      /
+                      <div className="ml-1 border-b border-black w-[40px] max-w-[60px] text-center">
+                        <span>
+                          {showYearText(
+                            report?.approve?.approveDate || new Date()
+                          )}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="flex justify-center items-center">
+              <div className="w-full flex items-center justify-evenly">
+                <div className="w-full text-center pr-40">( หัวหน้าไลน์ )</div>
+                <div className="w-full text-end pr-28">
+                  วิศวกรฝ่ายผลิตโรงรีด
+                </div>
+              </div>
+              <div className="flex justify-center items-center mt-2">
                 <div className="text-start">
                   <span>
                     * หมายเหตุ

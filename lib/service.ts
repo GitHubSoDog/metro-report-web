@@ -24,6 +24,7 @@ export class ReportService {
   ): Partial<ReportType> | null {
     return this.reportRepository.set(reportId, {
       ...report,
+      reportId: reportId,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
@@ -39,6 +40,7 @@ export class ReportService {
     }
     return this.reportRepository.set(reportId, {
       ...report,
+      reportId: reportId,
       updatedAt: new Date(),
     });
   }

@@ -4,8 +4,8 @@ export type LotType = {
   skinType: string;
   billetType: string;
   customerName: string;
-  start: Date;
-  end: Date;
+  start: Date | null;
+  end: Date | null;
   dyNumber: string;
   dyScreen: string;
   dySkin: string;
@@ -17,7 +17,7 @@ export type LotType = {
   holeCount: string;
   averageWeight: string;
   billetWeight: string;
-  factoryDate: Date;
+  factoryDate: Date | null;
   billetNumber: string;
   ironingSize: string;
   tendon: string;

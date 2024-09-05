@@ -9,13 +9,15 @@ export const genarateIdNormal = (): string => {
   return nanoid(10);
 };
 
-export const showLocalTime = (date: Date): string => {
+export const showLocalTime = (date: Date | null): string => {
+  if (!date) return '';
   const zonedDate = toZonedTime(date, timeZone);
 
   return formatTz(zonedDate, 'HH:mm', { timeZone });
 };
 
-export const showLocalDate = (date: Date): string => {
+export const showLocalDate = (date: Date | null): string => {
+  if (!date) return '';
   return format(date, 'dd/MM/yyyy');
 };
 
@@ -57,7 +59,7 @@ export const showDateText = (date: Date) => {
     day: 'numeric',
   };
 
-  return date.toLocaleDateString('th-TH', options);
+  return date.toLocaleDateString('en-US', options);
 };
 
 export const showMonthText = (date: Date) => {
@@ -73,5 +75,5 @@ export const showYearText = (date: Date) => {
     year: 'numeric',
   };
 
-  return date.toLocaleDateString('th-TH', options).replace('พ.ศ. ', '');
+  return date.toLocaleDateString('th-TH', options).replace('พ.ศ.', '');
 };

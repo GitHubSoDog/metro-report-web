@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 type DatePickerPropsType<T, K = string> = {
-  value: Date;
+  value: Date | null;
   textLabel?: string;
   onChange: (event: ChangeEventBaseType<T, K>) => void;
   id: string;

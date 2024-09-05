@@ -37,6 +37,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
           });
           break;
         }
+        console.log('req.body --> ', req.body);
+        console.log(query);
         const newData = req.body;
         const created = reportService.createReport(
           query.reportId as string,
@@ -62,6 +64,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
           break;
         }
         const patchData = req.body;
+        console.log('req.body --> ', req.body);
+        console.log(query);
         const updated = reportService.updateReport(
           query.reportId as string,
           patchData

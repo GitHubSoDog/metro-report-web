@@ -62,7 +62,7 @@ export const transformApiToLotsReport = (
         holeCount: '',
         averageWeight: '',
         billetWeight: '',
-        factoryDate: new Date(),
+        factoryDate: null,
         billetNumber: '',
         ironingSize: '',
         tendon: '',

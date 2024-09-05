@@ -148,28 +148,13 @@ td {
 }
 
 .underline-text {
-  position: relative;
-  display: inline-block;
-  font-size: 8px;
-  text-decoration: none; /* Remove the default underline */
+  border-bottom: 1px black solid;
+  width: 50px;
 }
 
 .underline-text::after {
   content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 2px;
-  background-image: linear-gradient(
-    to right,
-    black 50%,
-    rgba(255, 255, 255, 0) 0%
-  );
-  background-size: 4px 1px;
-  background-repeat: repeat-x;
-  transform: scaleX(2); /* Adjust the scale to make it wider */
-  transform-origin: center;
+  /* border: 1px black solid; */
 }
 
 /* Backdrop */

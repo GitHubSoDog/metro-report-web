@@ -1,3 +1,4 @@
+import { WithSetup } from '@/hoc/withMaster';
 import '@/styles/app.css';
 import '@/styles/globals.css';
 
@@ -8,8 +9,12 @@ const inter = Inter({ subsets: ['latin'] });
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <main className={inter.className}>
-      <Component {...pageProps} />
-    </main>
+    <WithSetup
+      render={({ master }) => (
+        <main className={inter.className}>
+          <Component {...pageProps} {...master} />
+        </main>
+      )}
+    />
   );
 }

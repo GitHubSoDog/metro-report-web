@@ -26,7 +26,7 @@ const useDailyReport = () => {
   const { status, reportId } = router.query;
   const [report, setReport] = useState<ReportType>({
     reportId: reportId as string,
-    su: '',
+    su: 'SU',
     dateReport: new Date(),
     machine: 'metroiot02',
     duty: '',
@@ -74,7 +74,7 @@ const useDailyReport = () => {
       setNewLot({ ...LOT_DEFAULT });
       setReport({
         reportId: reportId as string,
-        su: '',
+        su: 'SU',
         dateReport: new Date(),
         machine: 'metroiot02',
         duty: '',
@@ -124,6 +124,8 @@ const useDailyReport = () => {
           title: 'เกิดข้อผิดพลาด',
           text: 'กรุณาติดต่อผู้พัฒนา',
           icon: 'warning',
+        }).then(() => {
+          router.push('/');
         });
       }
     } finally {
@@ -186,6 +188,11 @@ const useDailyReport = () => {
   };
 
   const onSubmitReport = async () => {
+    const data = {
+      reportId: reportId as string,
+      ...transformDatesToString<object>(report),
+    };
+
     if (status === 'new') {
       // create
       try {
@@ -216,16 +223,13 @@ const useDailyReport = () => {
       // update
       try {
         setLoading(true);
-        await ssrInstance.patch<ReportType>(
-          `/daliy-report/${reportId}`,
-          transformDatesToString(report)
-        );
+        await ssrInstance.patch<ReportType>(`/daliy-report/${reportId}`, {
+          ...data,
+        });
         Swal.fire({
           title: 'Success',
           text: 'แก้ไขรายงานสำเร็จ',
           icon: 'success',
-        }).then(() => {
-          router.push('/');
         });
       } catch (err) {
         if (!axios.isCancel(err)) {

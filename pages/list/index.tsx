@@ -6,11 +6,19 @@ import ReportTable from '@/components/feature/report-list/ReportTable';
 import withSession from '@/hoc/withSession';
 import usePrintExport from '@/hook/usePrintExport.hook';
 import useReport from '@/hook/useReport.hook';
+import { ProtectedPageType } from '@/type/event';
 import { showLocalDateTimeFormatWeb } from '@/utilities/normal-fn';
 import { Fragment } from 'react';
 import { MdAdd, MdReportGmailerrorred } from 'react-icons/md';
 
-const List = () => {
+const List = ({
+  skinTypeMapping,
+  employeeIroningMapping,
+  varifyListMapping,
+  employeeStretchMapping,
+  approveListMapping,
+  billetTypeMapping,
+}: ProtectedPageType) => {
   const {
     routeEdit,
     isLoading,
@@ -107,6 +115,14 @@ const List = () => {
       </div>
 
       <DailyReportPrint
+        master={{
+          skinTypeMapping,
+          employeeIroningMapping,
+          varifyListMapping,
+          employeeStretchMapping,
+          approveListMapping,
+          billetTypeMapping,
+        }}
         report={reportPrint}
         lots={lotsPrint}
         pageTotal={totalPagePrint}
@@ -116,4 +132,4 @@ const List = () => {
   );
 };
 
-export default withSession(List, 'List Daily Report', 'List Daily Report');
+export default withSession(List, 'List Report', 'List Report');

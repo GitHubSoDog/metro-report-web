@@ -18,6 +18,7 @@ const usePrintExport = ({ nameReport = 'report' }: UsePrintExportPropsType) => {
     content: () => printRef.current,
     removeAfterPrint: true,
     onAfterPrint: () => clearStatePrint(),
+    documentTitle: nameReport,
   });
 
   const onClickPrint = (report: ReportType) => {
@@ -34,7 +35,7 @@ const usePrintExport = ({ nameReport = 'report' }: UsePrintExportPropsType) => {
     );
     timer = setTimeout(() => {
       handlePrint();
-    }, 2000);
+    }, 1000);
   };
 
   const clearStatePrint = () => {
