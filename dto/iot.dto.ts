@@ -1,9 +1,11 @@
+import { LOT_DEFAULT } from '@/constants/lot';
 import { IotServiceType, PostIotRequestType } from '@/type/iot-api';
 import { LotType } from '@/type/lots.type';
 import { ReportType } from '@/type/report.type';
 import {
   genarateIdNormal,
   showLocalDateTime,
+  showLocalDateTimeFormatWeb,
   showYmdDate,
 } from '@/utilities/normal-fn';
 
@@ -21,7 +23,19 @@ export const transformApiToLotsReport = (
   iotData: IotServiceType[]
 ): Record<string, LotType> => {
   const updatedLots = lots.map((lot) => {
-    const matchedIotData = iotData.find((iot) => iot.jobname === lot.lotName);
+    const matchedIotData = iotData.find(
+      (_iot) =>
+        _iot.jobname === lot.lotName &&
+        _iot.container === lot.container &&
+        _iot.lengths === lot.longShop &&
+        _iot.temperature_dyne === lot.dyScreen &&
+        _iot.temperature_billet === lot.billetScreen &&
+        _iot.speed === lot.speedPull &&
+        showLocalDateTimeFormatWeb(new Date(iotData[0].start_time)) ===
+          showLocalDateTimeFormatWeb(lots[1]?.start) &&
+        showLocalDateTimeFormatWeb(new Date(iotData[0].end_time)) ===
+          showLocalDateTimeFormatWeb(lots[1]?.end)
+    );
 
     if (matchedIotData) {
       return {
@@ -39,42 +53,32 @@ export const transformApiToLotsReport = (
     return lot;
   });
 
-  iotData.forEach((iot) => {
-    const isExisting = updatedLots.some((lot) => lot.lotName === iot.jobname);
-
+  iotData.forEach((_iot) => {
+    const isExisting = updatedLots.find(
+      (lot) =>
+        _iot.jobname === lot.lotName &&
+        _iot.container === lot.container &&
+        _iot.lengths === lot.longShop &&
+        _iot.temperature_dyne === lot.dyScreen &&
+        _iot.temperature_billet === lot.billetScreen &&
+        _iot.speed === lot.speedPull &&
+        showLocalDateTimeFormatWeb(new Date(_iot.start_time)) ===
+          showLocalDateTimeFormatWeb(lot.start) &&
+        showLocalDateTimeFormatWeb(new Date(_iot.end_time)) ===
+          showLocalDateTimeFormatWeb(lot.end)
+    );
     if (!isExisting) {
       const newLot: LotType = {
+        ...LOT_DEFAULT,
         lotId: genarateIdNormal(),
-        lotName: iot.jobname,
-        skinType: '',
-        billetType: '',
-        customerName: '',
-        start: new Date(iot.start_time),
-        end: new Date(iot.end_time),
-        dyNumber: '',
-        dyScreen: iot.temperature_dyne,
-        dySkin: '',
-        billetScreen: iot.temperature_billet,
-        billetMiddle: '',
-        container: iot.container,
-        boNo: '',
-        insNo: '',
-        holeCount: '',
-        averageWeight: '',
-        billetWeight: '',
-        factoryDate: null,
-        billetNumber: '',
-        ironingSize: '',
-        tendon: '',
-        billetCount: '',
-        times: '',
-        longShop: iot.lengths,
-        longExpect: '',
-        good: '',
-        waste: '',
-        wastePercent: '',
-        speedPull: iot.speed,
-        desc: '',
+        lotName: _iot.jobname,
+        start: new Date(_iot.start_time),
+        end: new Date(_iot.end_time),
+        dyScreen: _iot.temperature_dyne,
+        billetScreen: _iot.temperature_billet,
+        container: _iot.container,
+        longShop: _iot.lengths,
+        speedPull: _iot.speed,
       };
 
       updatedLots.push(newLot);

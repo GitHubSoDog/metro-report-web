@@ -25,8 +25,13 @@ export const showLocalDateFormatWeb = (date: Date): string => {
   return format(date, 'dd-MM-yyyy');
 };
 
-export const showLocalDateTimeFormatWeb = (date: Date): string => {
-  return format(date, 'dd-MM-yyyy HH:mm:ss');
+export const showLocalDateTimeFormatWeb = (
+  date: Date | null | undefined
+): string => {
+  if (date) {
+    return format(date, 'dd-MM-yyyy HH:mm:ss');
+  }
+  return '';
 };
 
 export const showLocalDateTime = (date: Date): string => {

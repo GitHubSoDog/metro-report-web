@@ -186,7 +186,7 @@ const LotCrmModal = ({
           />
           <DatePickerInput
             value={newLot.factoryDate}
-            textLabel={'วันที่เข้าโรงรีด'}
+            textLabel={'ว.ด.ป. บิลเลท ที่เข้าโรงรีด'}
             onChange={onChangeNewLot}
             id={'factoryDate'}
             name={'factoryDate'}
@@ -245,14 +245,14 @@ const LotCrmModal = ({
           />
           <TextInput
             value={newLot.longExpect}
-            textLabel={'ความยาวที่ลูกค้าต้องการ'}
+            textLabel={'ความยาวที่ลูกค้าต้องการ (ม.)'}
             onChange={onChangeNewLot}
             id={'longExpect'}
             name={'longExpect'}
             maxLength={6}
           />
           <div className="col-span-2" />
-          <div>ตัดหน้าเครื่อง</div>
+          <div>จำนวนเส้นที่ตัดได้</div>
           <TextInput
             value={newLot.good}
             textLabel={'ดี'}
