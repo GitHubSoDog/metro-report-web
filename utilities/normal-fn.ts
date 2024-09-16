@@ -22,6 +22,9 @@ export const showLocalDate = (date: Date | null): string => {
 };
 
 export const showLocalDateFormatWeb = (date: Date): string => {
+  if (!date) {
+    return '';
+  }
   return format(date, 'dd-MM-yyyy');
 };
 
@@ -35,14 +38,19 @@ export const showLocalDateTimeFormatWeb = (
 };
 
 export const showLocalDateTime = (date: Date): string => {
+  if (!date) return '';
   return format(date, 'HH:mm:00');
 };
 
 export const showYmdDate = (date: Date): string => {
+  if (!date) return '';
+
   return format(date, 'yyyy-MM-dd');
 };
 
 export const isToday = (date: Date): boolean => {
+  if (!date) return false;
+
   const today = new Date();
   const reportDate = new Date(date);
   return (
@@ -60,6 +68,8 @@ export const formatNumber = (text: string): string => {
 };
 
 export const showDateText = (date: Date) => {
+  if (!date) return '';
+
   const options: Intl.DateTimeFormatOptions = {
     day: 'numeric',
   };
@@ -68,6 +78,8 @@ export const showDateText = (date: Date) => {
 };
 
 export const showMonthText = (date: Date) => {
+  if (!date) return '';
+
   const options: Intl.DateTimeFormatOptions = {
     month: 'long',
   };
@@ -76,6 +88,8 @@ export const showMonthText = (date: Date) => {
 };
 
 export const showYearText = (date: Date) => {
+  if (!date) return '';
+
   const options: Intl.DateTimeFormatOptions = {
     year: 'numeric',
   };

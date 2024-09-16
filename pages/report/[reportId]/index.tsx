@@ -3,6 +3,7 @@ import DatePickerInput from '@/components/common/DatePickerInput';
 import DropDown from '@/components/common/DropDown';
 import Loading from '@/components/common/Loading';
 import TextInput from '@/components/common/TextInput';
+import TimePickerInput from '@/components/common/TimePickerInput';
 import LotCrmModal from '@/components/feature/add-lot/LotCrmModal';
 import LotsTable from '@/components/feature/lots-table/LotsTable';
 import DailyReportPrint from '@/components/feature/print-form/DailyReportPrint';
@@ -188,22 +189,20 @@ const Report = ({
           </div>
           <div className="flex justify-center items-center">
             <div className="pr-4">เริ่ม</div>
-            <DatePickerInput
+            <TimePickerInput
               value={report.start}
               onChange={onChangeReport}
               id={'start'}
               name={'start'}
-              isShowTimeOnly
             />
           </div>
           <div className="flex justify-center items-center">
             <div className="pr-4">ถึง</div>
-            <DatePickerInput
+            <TimePickerInput
               value={report.end}
               onChange={onChangeReport}
               id={'end'}
               name={'end'}
-              isShowTimeOnly
             />
           </div>
         </div>

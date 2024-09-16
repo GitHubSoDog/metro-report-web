@@ -2,6 +2,7 @@ import DatePickerInput from '@/components/common/DatePickerInput';
 import DropDown from '@/components/common/DropDown';
 import Modal from '@/components/common/Modal';
 import TextInput from '@/components/common/TextInput';
+import TimePickerInput from '@/components/common/TimePickerInput';
 import { BILLET_TYPE, SKIN_TYPE } from '@/constants/master-data';
 import { ChangeEventBaseType } from '@/type/event';
 import { LotType } from '@/type/lots.type';
@@ -69,23 +70,21 @@ const LotCrmModal = ({
           />
           <div className="col-span-2" />
           <div>เวลาผลิต</div>
-          <DatePickerInput
+          <TimePickerInput
             value={newLot.start}
             textLabel={'เริ่ม'}
             onChange={onChangeNewLot}
             id={'start'}
             name={'start'}
             disabled={false}
-            isShowTimeOnly
           />
-          <DatePickerInput
+          <TimePickerInput
             value={newLot.end}
             textLabel={'เสร็จ'}
             onChange={onChangeNewLot}
             id={'end'}
             name={'end'}
             disabled={false}
-            isShowTimeOnly
           />
           <TextInput
             value={newLot.dyNumber}
