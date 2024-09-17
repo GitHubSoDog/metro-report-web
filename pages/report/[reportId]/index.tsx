@@ -22,7 +22,7 @@ import { showLocalDateTimeFormatWeb } from '@/utilities/normal-fn';
 import { Fragment } from 'react';
 import { FiDownloadCloud } from 'react-icons/fi';
 import { IoBackspaceOutline, IoSaveOutline } from 'react-icons/io5';
-import { MdAdd, MdDownload, MdReportGmailerrorred } from 'react-icons/md';
+import { MdAdd, MdReportGmailerrorred } from 'react-icons/md';
 import { TfiPrinter } from 'react-icons/tfi';
 
 const Report = ({
@@ -137,7 +137,7 @@ const Report = ({
           />
         </div>
 
-        <div className="pt-6 pb-6 mb-4 grid gap-2 border-b-2 md:grid-cols-4 xl:grid-cols-6">
+        <div className="pt-6 pb-6 mb-4 grid gap-2 border-b-2 md:grid-cols-4 lg:grid-cols-6">
           <div className="flex justify-center items-center">
             <div className="pr-4 min-w-[100px]">วันที่ เดือน ปี</div>
             <DatePickerInput
@@ -187,7 +187,7 @@ const Report = ({
               maxLength={20}
             />
           </div>
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center max-w-[240px]">
             <div className="pr-4">เริ่ม</div>
             <TimePickerInput
               value={report.start}
@@ -196,7 +196,7 @@ const Report = ({
               name={'start'}
             />
           </div>
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center max-w-[240px]">
             <div className="pr-4">ถึง</div>
             <TimePickerInput
               value={report.end}

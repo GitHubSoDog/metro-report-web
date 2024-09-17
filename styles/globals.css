@@ -51,7 +51,3 @@ body {
   width: 12px;
   height: 12px;
 }
-
-input[type='time']::-webkit-datetime-edit-ampm-field {
-  display: none;
-}

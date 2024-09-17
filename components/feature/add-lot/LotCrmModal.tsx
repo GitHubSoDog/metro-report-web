@@ -76,7 +76,6 @@ const LotCrmModal = ({
             onChange={onChangeNewLot}
             id={'start'}
             name={'start'}
-            disabled={false}
           />
           <TimePickerInput
             value={newLot.end}
@@ -84,7 +83,6 @@ const LotCrmModal = ({
             onChange={onChangeNewLot}
             id={'end'}
             name={'end'}
-            disabled={false}
           />
           <TextInput
             value={newLot.dyNumber}
