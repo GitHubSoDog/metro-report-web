@@ -70,7 +70,7 @@ const TimePickerInput = <K extends string>({
         <select
           value={formattedHours}
           onChange={handleHourSelect}
-          className="w-full px-1 py-2.5 bg-blue-100 border-none rounded-lg"
+          className="w-full px-1 py-2.5 bg-gray-50 border-none rounded-lg"
         >
           <option key={'empty'} value={''}>
             {''}
@@ -85,7 +85,7 @@ const TimePickerInput = <K extends string>({
         <select
           value={formattedMinutes}
           onChange={handleMinuteSelect}
-          className="w-full px-1 py-2.5 bg-blue-100 border-none rounded-lg"
+          className="w-full px-1 py-2.5 bg-gray-50 border-none rounded-lg"
         >
           <option key={'empty'} value={''}>
             {''}
