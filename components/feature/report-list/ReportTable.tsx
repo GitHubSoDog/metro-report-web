@@ -48,6 +48,7 @@ const ReportTable = ({
           <thead>
             <tr className="border-none bg-[#dadadb] text-black">
               <th className="min-w-[80px]">Date</th>
+              <th className="min-w-[80px]">Update By</th>
               <th className="min-w-[80px]">Created Date</th>
               <th className="min-w-[80px]">Action</th>
             </tr>
@@ -59,6 +60,7 @@ const ReportTable = ({
                 className={isToday(row.createdAt) ? 'bg-red-100' : 'bg-white'}
               >
                 <td>{showLocalDateFormatWeb(row.dateReport)}</td>
+                <td>{row.updateBy}</td>
                 <td>
                   {showLocalDateTimeFormatWeb(row.createdAt)}
                   {Object.values(row?.lots || {}).length > 0 ? null : (

@@ -145,7 +145,7 @@ const LotCrmModal = ({
             onChange={onChangeNewLot}
             id={'boNo'}
             name={'boNo'}
-            maxLength={4}
+            maxLength={5}
           />
           <TextInput
             value={newLot.insNo}
@@ -153,7 +153,7 @@ const LotCrmModal = ({
             onChange={onChangeNewLot}
             id={'insNo'}
             name={'insNo'}
-            maxLength={4}
+            maxLength={5}
           />
           <TextInput
             value={newLot.holeCount}
@@ -179,7 +179,7 @@ const LotCrmModal = ({
             onChange={onChangeNewLot}
             id={'billetWeight'}
             name={'billetWeight'}
-            maxLength={5}
+            maxLength={9}
           />
           <DatePickerInput
             value={newLot.factoryDate}
@@ -194,7 +194,7 @@ const LotCrmModal = ({
             onChange={onChangeNewLot}
             id={'billetNumber'}
             name={'billetNumber'}
-            maxLength={9}
+            maxLength={15}
           />
           <TextInput
             value={newLot.ironingSize}
@@ -220,7 +220,7 @@ const LotCrmModal = ({
             onChange={onChangeNewLot}
             id={'billetCount'}
             name={'billetCount'}
-            maxLength={4}
+            maxLength={6}
           />
           <div className="col-span-3" />
           <div>ตัดหน้าเครื่อง</div>

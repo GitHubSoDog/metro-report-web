@@ -111,6 +111,10 @@ export const EMPLOYEE_IRONING: OptionPropsType[] = [
     value: '0002',
     lable: 'ธรรมนูญ',
   },
+  //   {
+  //     value: '0003',
+  //     lable: 'ตาม',
+  //   },
 ];
 
 export const VARIFY_LIST: OptionPropsType[] = [

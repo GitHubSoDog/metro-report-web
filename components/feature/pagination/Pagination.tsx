@@ -50,28 +50,48 @@ const PaginationCustom = ({
         disabled={page === 1}
         className="disabled:cursor-not-allowed hover:opacity-15"
       >
-        <BsChevronBarLeft className="mr-4 text-[18px]" />
+        <BsChevronBarLeft
+          className={`mr-4 text-[18px] ${
+            page !== 1 ? 'text-black font-black' : 'text-slate-400 font-black'
+          }`}
+        />
       </button>
       <button
         onClick={() => handlePage(-1)}
         disabled={page === 1}
         className="disabled:cursor-not-allowed hover:opacity-15"
       >
-        <BsChevronLeft className="mr-4 text-[16px]" />
+        <BsChevronLeft
+          className={`mr-4 text-[16px] ${
+            page !== 1 ? 'text-black font-black' : 'text-slate-400 font-black'
+          }`}
+        />
       </button>
       <button
         onClick={() => handlePage(1)}
         disabled={page === Math.ceil(totalData / sizePage)}
         className="disabled:cursor-not-allowed hover:opacity-15"
       >
-        <BsChevronRight className="mr-4 text-[16px]" />
+        <BsChevronRight
+          className={`mr-4 text-[16px] ${
+            page !== Math.ceil(totalData / sizePage)
+              ? 'text-black font-black'
+              : 'text-slate-400 font-black'
+          }`}
+        />
       </button>
       <button
         onClick={finalPage}
         disabled={page === Math.ceil(totalData / sizePage)}
         className="disabled:cursor-not-allowed hover:opacity-15"
       >
-        <BsChevronBarRight className="text-[18px]" />
+        <BsChevronBarRight
+          className={`text-[18px] ${
+            page !== Math.ceil(totalData / sizePage)
+              ? 'text-black font-black'
+              : 'text-slate-400 font-black'
+          }`}
+        />
       </button>
     </div>
   );

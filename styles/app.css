@@ -113,6 +113,12 @@ td {
   background-color: #ffffff;
 }
 /* Print-specific styles */
+@page {
+  margin: 0;
+  padding: 0;
+  size: landscape;
+}
+
 @media print {
   .table-print {
     width: 100%;
@@ -123,12 +129,17 @@ td {
   .table-print th,
   .table-print td {
     padding: 0px 4px;
-    border: 1px solid black;
+    border: 0.1rem solid black;
   }
 
   .rotated {
-    writing-mode: tb-rl;
+    /* writing-mode: tb-rl;
+    transform: rotate(-180deg); */
+
+    writing-mode: vertical-rl;
     transform: rotate(-180deg);
+    white-space: nowrap;
+    width: 6px;
   }
 
   .table-print th {
@@ -138,8 +149,11 @@ td {
   /* Hide unnecessary elements in print */
   .page-break {
     display: block;
-    padding: 38px 18px;
     page-break-before: always; /* Forces a page break before this element */
+  }
+
+  .page-setup {
+    padding: 38px 18px;
   }
 
   .no-print {

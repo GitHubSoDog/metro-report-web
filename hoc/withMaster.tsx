@@ -1,13 +1,13 @@
 import {
-  SKIN_TYPE,
-  EMPLOYEE_IRONING,
-  VARIFY_LIST,
-  EMPLOYEE_STRETCH,
   APPROVE_LIST,
   BILLET_TYPE,
+  EMPLOYEE_IRONING,
+  EMPLOYEE_STRETCH,
+  SKIN_TYPE,
+  VARIFY_LIST,
 } from '@/constants/master-data';
 import { ProtectedPageType } from '@/type/event';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 type WithThemesProps = {
   render: (props: { master: ProtectedPageType }) => JSX.Element;

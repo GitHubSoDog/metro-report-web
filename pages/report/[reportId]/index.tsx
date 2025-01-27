@@ -159,8 +159,8 @@ const Report = ({
                 placeholder="ชื่อเครื่อง"
                 option={[
                   {
-                    value: 'metroiot02',
-                    lable: 'metroiot02',
+                    value: 'UBE1800',
+                    lable: 'UBE1800',
                   },
                 ]}
                 disabled
@@ -303,12 +303,12 @@ const Report = ({
             <div className="flex justify-center items-center">
               <div className="pr-4 w-[100px]">พนักงานรีด</div>
               <div className="w-[200px] mr-2">
-                <DropDown
+                <TextInput
                   value={report.employeeIroning.employeeName}
                   onChange={onChangeReportApprove}
                   id={'employeeIroning'}
                   name={'employeeName'}
-                  option={EMPLOYEE_IRONING}
+                  maxLength={30}
                 />
               </div>
 
@@ -323,12 +323,12 @@ const Report = ({
             <div className="flex justify-center items-center">
               <div className="pr-4 w-[100px]">ตรวจสอบ</div>
               <div className="w-[200px] mr-2">
-                <DropDown
+                <TextInput
                   value={report.varify.employeeName}
                   onChange={onChangeReportApprove}
                   id={'varify'}
                   name={'employeeName'}
-                  option={VARIFY_LIST}
+                  maxLength={30}
                 />
               </div>
 
@@ -345,12 +345,12 @@ const Report = ({
             <div className="flex justify-center items-center">
               <div className="pr-4 w-[100px]">พนักงานยืด</div>
               <div className="w-[200px] mr-2">
-                <DropDown
+                <TextInput
                   value={report.employeeStretch.employeeName}
                   onChange={onChangeReportApprove}
                   id={'employeeStretch'}
                   name={'employeeName'}
-                  option={EMPLOYEE_STRETCH}
+                  maxLength={30}
                 />
               </div>
 

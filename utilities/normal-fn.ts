@@ -62,7 +62,7 @@ export const isToday = (date: Date): boolean => {
 
 export const formatNumber = (text: string): string => {
   if (text) {
-    return new Intl.NumberFormat('en-US').format(parseFloat(text));
+    return new Intl.NumberFormat('en-US')?.format(parseFloat(text)) || '';
   }
   return '';
 };
@@ -74,7 +74,7 @@ export const showDateText = (date: Date) => {
     day: 'numeric',
   };
 
-  return date.toLocaleDateString('en-US', options);
+  return date?.toLocaleDateString('en-US', options) || '';
 };
 
 export const showMonthText = (date: Date) => {
@@ -84,7 +84,7 @@ export const showMonthText = (date: Date) => {
     month: 'long',
   };
 
-  return date.toLocaleDateString('th-TH', options);
+  return date?.toLocaleDateString('th-TH', options) || '';
 };
 
 export const showYearText = (date: Date) => {
@@ -94,5 +94,5 @@ export const showYearText = (date: Date) => {
     year: 'numeric',
   };
 
-  return date.toLocaleDateString('th-TH', options).replace('พ.ศ.', '');
+  return date?.toLocaleDateString('th-TH', options)?.replace('พ.ศ.', '') || '';
 };

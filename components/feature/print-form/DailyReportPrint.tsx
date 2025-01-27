@@ -32,7 +32,10 @@ const DailyReportPrint = forwardRef<HTMLDivElement, DailyReportPropsType>(
           }}
         >
           {pageTotal.map((page, index) => (
-            <div key={index} className="page-break">
+            <div
+              key={index}
+              className={index > 0 ? 'page-setup page-break' : 'page-setup'}
+            >
               <span className="font-bold">
                 รายงานการผลิตประจำวัน {report?.department || ''}
               </span>
@@ -242,11 +245,7 @@ const DailyReportPrint = forwardRef<HTMLDivElement, DailyReportPropsType>(
                   <div className="min-w-[50px]">พนักงานรีด </div>
                   <div className="flex items-end w-full">
                     <div className="border-b border-black w-[100px] max-w-[100px] text-center">
-                      <span>
-                        {master?.employeeIroningMapping?.[
-                          report?.employeeIroning?.employeeName || ''
-                        ] || ''}
-                      </span>
+                      <span>{report?.employeeIroning?.employeeName || ''}</span>
                     </div>
                     <div className="flex items-end w-full">
                       <div className="ml-4 mr-1 border-b border-black w-[20px] max-w-[20px] text-center">
@@ -279,11 +278,7 @@ const DailyReportPrint = forwardRef<HTMLDivElement, DailyReportPropsType>(
                   <div className="min-w-[50px]">พนักงานยืด</div>
                   <div className="flex items-end">
                     <div className="border-b border-black w-[100px] max-w-[100px] text-center">
-                      <span>
-                        {master?.employeeStretchMapping?.[
-                          report?.employeeStretch?.employeeName || ''
-                        ] || ''}
-                      </span>
+                      <span>{report?.employeeStretch?.employeeName || ''}</span>
                     </div>
                     <div className="flex items-end">
                       <div className="ml-4 mr-1 border-b border-black w-[20px] max-w-[20px] text-center">
@@ -316,11 +311,7 @@ const DailyReportPrint = forwardRef<HTMLDivElement, DailyReportPropsType>(
                   <div className="min-w-[50px]">ตรวจสอบ</div>
                   <div className="flex items-end w-full">
                     <div className="border-b border-black w-[100px] max-w-[100px] text-center">
-                      <span>
-                        {master?.varifyListMapping?.[
-                          report?.varify?.employeeName || ''
-                        ] || ''}
-                      </span>
+                      <span>{report?.varify?.employeeName || ''}</span>
                     </div>
                     <div className="flex items-end w-full">
                       <div className="ml-4 mr-1 border-b border-black w-[20px] max-w-[20px] text-center">
